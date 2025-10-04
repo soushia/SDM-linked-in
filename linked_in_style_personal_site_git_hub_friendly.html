@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Soushia DooghaieMoghadam — Profile</title>
+  <meta name="description" content="LinkedIn‑style personal profile for Soushia DooghaieMoghadam: experience, projects, skills, and contact." />
+  <meta name="theme-color" content="#0b0b0b" />
+  <style>
+    /* =========================
+       THEME & RESET
+       ========================= */
+    :root{
+      --cream:#f6efe6;         /* neutral cream */
+      --cream-2:#efe7dc;
+      --ink:#0b0b0b;           /* near black */
+      --ink-2:#222;
+      --muted:#6e6b67;         /* warm gray */
+      --accent:#0b0b0b;        /* subtle, same as ink for minimalist */
+      --card:#fffaf2;          /* lighter card */
+      --ring: rgba(11,11,11,.12);
+      --shadow: 0 10px 25px rgba(0,0,0,.08), 0 2px 8px rgba(0,0,0,.06);
+      --radius: 18px;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:var(--cream);color:var(--ink);font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji"}
+    img{max-width:100%;display:block}
+    a{color:inherit}
+    h1,h2,h3{line-height:1.15;margin:0 0 .6rem}
+    h1{font-size: clamp(32px, 4vw, 44px)}
+    h2{font-size: clamp(22px, 2.6vw, 28px)}
+    h3{font-size: clamp(18px, 2.2vw, 22px)}
+    p{margin:0 0 1rem}
+    .container{max-width:1100px;margin:0 auto;padding:20px}
+
+    /* =========================
+       HEADER / HERO
+       ========================= */
+    header.site{
+      position:sticky; top:0; z-index:50;
+      backdrop-filter: saturate(140%) blur(8px);
+      background: color-mix(in oklab, var(--cream) 80%, white);
+      border-bottom:1px solid var(--ring);
+    }
+    .site-inner{display:flex;gap:14px;align-items:center;justify-content:space-between;padding:10px 20px}
+    .brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+    .avatar{width:40px;height:40px;border-radius:50%;border:1px solid var(--ring);box-shadow:var(--shadow);object-fit:cover;background:#fff}
+    nav a{padding:8px 12px;border-radius:10px;text-decoration:none;color:var(--ink-2)}
+    nav a:hover{background:var(--cream-2)}
+    .cta{border:1px solid var(--ink); padding:8px 12px;border-radius:999px;text-decoration:none;font-weight:600}
+
+    .hero{display:grid;grid-template-columns: 140px 1fr;gap:24px;padding:34px 20px 10px}
+    .hero .photo{width:140px;height:140px;border-radius:18px;border:1px solid var(--ring);box-shadow:var(--shadow);object-fit:cover;background:#fff}
+    .headline{display:flex;flex-direction:column;gap:8px}
+    .headline .title{font-weight:800}
+    .meta{color:var(--muted)}
+    .badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+    .badge{border:1px solid var(--ink);padding:6px 10px;border-radius:999px;font-size:14px}
+
+    /* =========================
+       LAYOUT & CARDS
+       ========================= */
+    main{padding:10px 20px 60px}
+    .grid{display:grid;grid-template-columns:2fr 1fr;gap:22px}
+    @media (max-width: 900px){.grid{grid-template-columns:1fr}}
+
+    .card{background:var(--card); border:1px solid var(--ring); border-radius:var(--radius); box-shadow:var(--shadow); padding:18px}
+    .card + .card{margin-top:16px}
+    .card h3{display:flex;align-items:center;justify-content:space-between}
+    .mix{display:flex;gap:12px;flex-wrap:wrap}
+    .role{display:grid;grid-template-columns: 56px 1fr;gap:14px}
+    .role .logo{width:56px;height:56px;border-radius:12px;border:1px solid var(--ring);background:#fff;display:grid;place-items:center;font-weight:700}
+    .role .period{color:var(--muted);font-size:14px}
+
+    .chip{padding:6px 10px;border:1px solid var(--ink);border-radius:999px;font-size:13px}
+    .skills{display:flex;gap:8px;flex-wrap:wrap}
+
+    .progress{height:9px;background:#efe7dc;border-radius:99px;position:relative;overflow:hidden;border:1px solid var(--ring)}
+    .progress > span{position:absolute;height:100%;left:0;top:0;background:var(--ink)}
+
+    .timeline{position:relative}
+    .timeline:before{content:"";position:absolute;left:28px;top:0;bottom:0;width:2px;background:var(--ring)}
+    .item{position:relative;padding-left:56px;margin:18px 0}
+    .dot{position:absolute;left:20px;top:8px;width:18px;height:18px;background:#fff;border:2px solid var(--ink);border-radius:50%}
+
+    .pill{border:1px solid var(--ink);border-radius:999px;padding:6px 12px;font-size:14px}
+
+    .projects{display:grid;grid-template-columns: repeat(2, 1fr);gap:14px}
+    @media (max-width:800px){.projects{grid-template-columns: 1fr}}
+    .project{padding:16px;border:1px dashed var(--ink);border-radius:16px;background:linear-gradient(0deg, rgba(255,255,255,.4), transparent)}
+    .project h4{margin:0 0 4px}
+
+    footer{margin-top:36px;color:var(--muted);font-size:14px;text-align:center}
+
+    /* micro‑interactions */
+    .hover-raise{transition: transform .15s ease, box-shadow .15s ease}
+    .hover-raise:hover{transform: translateY(-2px); box-shadow: 0 14px 30px rgba(0,0,0,.10), 0 4px 10px rgba(0,0,0,.08)}
+  </style>
+</head>
+<body>
+  <!-- ========================= HEADER ========================= -->
+  <header class="site">
+    <div class="site-inner container">
+      <a class="brand" href="#top">
+        <img class="avatar" src="https://picsum.photos/seed/soushia/200/200" alt="Soushia DooghaieMoghadam avatar"/>
+        <strong>Soushia DooghaieMoghadam</strong>
+      </a>
+      <nav>
+        <a href="#about">About</a>
+        <a href="#experience">Experience</a>
+        <a href="#projects">Projects</a>
+        <a href="#contact" class="cta">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ========================= HERO ========================= -->
+  <section class="hero container" id="top" aria-label="Intro">
+    <img class="photo" src="https://picsum.photos/seed/portrait-soushia/400/400" alt="Soushia portrait"/>
+    <div class="headline">
+      <h1 class="title">Soushia DooghaieMoghadam</h1>
+      <p class="meta">Business & Finance Student • Laguna Niguel, CA • Open to opportunities</p>
+      <div class="badges">
+        <span class="badge">Bilingual: Persian / English</span>
+        <span class="badge">Customer Service</span>
+        <span class="badge">E‑commerce Ops</span>
+      </div>
+    </div>
+  </section>
+
+  <main class="container">
+    <div class="grid">
+      <!-- ========================= LEFT COLUMN ========================= -->
+      <section class="left">
+        <!-- About -->
+        <article class="card hover-raise" id="about">
+          <h2>About</h2>
+          <p>
+            I thrive in fast‑paced retail and e‑commerce environments, supporting seamless operations while keeping a strong customer‑first mindset. Currently pursuing an Associate of Science in Business Administration & Management at Saddleback College (Class of 2027).
+          </p>
+          <div class="mix">
+            <span class="pill">Seeking internships</span>
+            <span class="pill">Remote‑friendly</span>
+            <span class="pill" id="visitor-pill" title="Unique visitors">👀 Visitors: <em id="visitors">—</em></span>
+          </div>
+        </article>
+
+        <!-- Experience -->
+        <article class="card hover-raise" id="experience">
+          <h2>Experience</h2>
+          <div class="timeline" id="experience-list">
+            <div class="item">
+              <span class="dot" aria-hidden="true"></span>
+              <div class="role">
+                <div class="logo">SC</div>
+                <div>
+                  <h3>Officer of Finance, Associated Student Government of Saddleback College</h3>
+                  <div class="period">Aug 2025 – Present • Mission Viejo, CA</div>
+                  <p>Collaborate on budget committee decisions across divisions (science, arts, English). Track quarterly budgets and ledgers; evaluate funding requests based on budget, expected revenue, and impact.</p>
+                  <div class="skills">
+                    <span class="chip">Budget Tracking</span>
+                    <span class="chip">Finance</span>
+                    <span class="chip">Leadership</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="item">
+              <span class="dot" aria-hidden="true"></span>
+              <div class="role">
+                <div class="logo">WFM</div>
+                <div>
+                  <h3>Bakery Associate, Whole Foods Market</h3>
+                  <div class="period">Sep 2025 – Present • Laguna Niguel, CA</div>
+                  <p>Prepare, package, and stock baked goods; assist customers; perform temperature checks; maintain department standards and food‑safety compliance; restock and rotate products to minimize waste.</p>
+                  <div class="skills">
+                    <span class="chip">Customer Service</span>
+                    <span class="chip">Food Safety</span>
+                    <span class="chip">Teamwork</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="item">
+              <span class="dot" aria-hidden="true"></span>
+              <div class="role">
+                <div class="logo">WFM</div>
+                <div>
+                  <h3>E‑Commerce / Cashier / Customer Service, Whole Foods Market</h3>
+                  <div class="period">Apr 2025 – Sep 2025 • Laguna Niguel, CA</div>
+                  <p>Fulfilled online orders, supported in‑store operations, assisted customers with product inquiries, and handled accurate cash/card transactions in a clean, organized workspace.</p>
+                </div>
+              </div>
+            </div>
+            <div class="item">
+              <span class="dot" aria-hidden="true"></span>
+              <div class="role">
+                <div class="logo">RC</div>
+                <div>
+                  <h3>Operations Team Member, Raising Cane's Chicken Fingers</h3>
+                  <div class="period">May 2023 – Feb 2024 • Aliso Viejo, CA</div>
+                </div>
+              </div>
+            </div>
+            <div class="item">
+              <span class="dot" aria-hidden="true"></span>
+              <div class="role">
+                <div class="logo">PE</div>
+                <div>
+                  <h3>Secretary, Pioneer Energy</h3>
+                  <div class="period">Jan 2022 – Apr 2022 • Tehran, Iran</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Projects -->
+        <article class="card hover-raise" id="projects">
+          <h2>Projects</h2>
+          <div class="projects" id="project-grid">
+            <!-- Populated dynamically from /api/projects or fallback JSON -->
+          </div>
+        </article>
+      </section>
+
+      <!-- ========================= RIGHT COLUMN ========================= -->
+      <aside class="right">
+        <!-- Skills -->
+        <article class="card hover-raise">
+          <h2>Skills</h2>
+          <div>
+            <p>Inventory Management</p>
+            <div class="progress" aria-label="Inventory Management"><span style="width:85%"></span></div>
+            <p>Baking</p>
+            <div class="progress"><span style="width:75%"></span></div>
+            <p>Customer Demos</p>
+            <div class="progress"><span style="width:65%"></span></div>
+          </div>
+        </article>
+
+        <!-- Languages -->
+        <article class="card hover-raise">
+          <h2>Languages</h2>
+          <p>Persian — Native/Bilingual</p>
+          <p>English — Native/Bilingual</p>
+        </article>
+
+        <!-- Education -->
+        <article class="card hover-raise">
+          <h2>Education</h2>
+          <p><strong>Saddleback College</strong> — A.S., Business Administration & Management</p>
+          <p class="meta">Aug 2025 – Jul 2027</p>
+          <p><strong>Aliso Niguel High School</strong> — High School Diploma</p>
+          <p class="meta">Aug 2022 – Jun 2025</p>
+        </article>
+
+        <!-- Contact -->
+        <article class="card hover-raise" id="contact">
+          <h2>Contact</h2>
+          <form id="contact-form" class="mix" onsubmit="return false">
+            <input aria-label="Your name" required name="name" placeholder="Name" style="padding:10px;border-radius:12px;border:1px solid var(--ring);flex:1;min-width:180px" />
+            <input aria-label="Your email" required type="email" name="email" placeholder="Email" style="padding:10px;border-radius:12px;border:1px solid var(--ring);flex:1;min-width:180px" />
+            <textarea aria-label="Your message" required name="message" placeholder="Message" rows="4" style="padding:10px;border-radius:12px;border:1px solid var(--ring);flex-basis:100%"></textarea>
+            <button class="cta" id="send-btn" style="cursor:pointer">Send</button>
+            <a id="mailto-fallback" class="pill" href="mailto:soushia@outlook.com?subject=Hello&body=Hi!" style="text-decoration:none">or email me</a>
+            <span id="send-status" class="meta"></span>
+          </form>
+        </article>
+
+        <!-- Quick Links -->
+        <article class="card hover-raise">
+          <h2>Links</h2>
+          <div class="mix">
+            <a class="pill" href="https://github.com/" target="_blank" rel="noopener">GitHub</a>
+            <a class="pill" href="https://www.linkedin.com/in/soushia" target="_blank" rel="noopener">LinkedIn</a>
+            <a class="pill" href="#projects">Portfolio</a>
+            <button class="pill" id="endorse-btn" title="A fun micro‑interaction">+ Endorse</button>
+            <span class="pill" id="endorse-count">0 endorsements</span>
+          </div>
+        </article>
+      </aside>
+    </div>
+
+    <footer>
+      <p>© <span id="year"></span> Soushia DooghaieMoghadam • Built with vanilla HTML/CSS/JS • Cream & Black theme</p>
+    </footer>
+  </main>
+
+  <script>
+    // =========================
+    // Small JS helpers
+    // =========================
+    const $ = (sel, scope=document) => scope.querySelector(sel);
+    const $$ = (sel, scope=document) => Array.from(scope.querySelectorAll(sel));
+
+    // Year
+    $('#year').textContent = new Date().getFullYear();
+
+    // Endorsements (localStorage + optional backend)
+    const endorseKey = 'endorse-count-v1';
+    const endorseCountEl = $('#endorse-count');
+    let endorseCount = parseInt(localStorage.getItem(endorseKey) || '0', 10);
+    const syncEndorsements = async () => {
+      try{
+        const res = await fetch('/api/endorse', {method:'GET'});
+        if(res.ok){
+          const data = await res.json();
+          endorseCount = data.count ?? endorseCount;
+          localStorage.setItem(endorseKey, endorseCount);
+        }
+      }catch(e){/* no backend present */}
+      finally{endorseCountEl.textContent = `${endorseCount} endorsement${endorseCount===1?'':'s'}`}
+    };
+    syncEndorsements();
+    $('#endorse-btn').addEventListener('click', async () =>{
+      endorseCount++;
+      localStorage.setItem(endorseKey, endorseCount);
+      endorseCountEl.textContent = `${endorseCount} endorsement${endorseCount===1?'':'s'}`;
+      try{ await fetch('/api/endorse', {method:'POST'});}catch(e){}
+    });
+
+    // Visitor count (optional backend)
+    const visitorsEl = $('#visitors');
+    (async ()=>{
+      try{
+        const res = await fetch('/api/visitors', {method:'POST'});
+        const data = await res.json();
+        visitorsEl.textContent = data.total ?? '—';
+      }catch(e){
+        visitorsEl.textContent = 'offline';
+      }
+    })();
+
+    // Contact form (optional backend with graceful fallback)
+    $('#contact-form').addEventListener('submit', async () =>{
+      const form = $('#contact-form');
+      const status = $('#send-status');
+      const btn = $('#send-btn');
+      status.textContent = 'Sending…'; btn.disabled = true;
+      const payload = Object.fromEntries(new FormData(form).entries());
+      try{
+        const res = await fetch('/api/contact', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload)});
+        if(res.ok){ status.textContent = 'Thanks! I will reply soon.'; form.reset(); }
+        else{ throw new Error('backend missing') }
+      }catch(e){
+        status.textContent = 'Backend not configured. Use the email link instead →';
+      }finally{ btn.disabled = false; }
+    });
+
+    // Projects (fetch from backend or fallback)
+    const defaultProjects = [
+      { name:'Deal Screener', desc:'A small tool to rank companies by traction and unit economics.', link:'#' },
+      { name:'Portfolio Dashboard', desc:'Python + SQL pipeline that tracks positions & risk.', link:'#' },
+      { name:'Class Scheduler', desc:'Simple web app to optimize course schedules.', link:'#' }
+    ];
+    (async ()=>{
+      let items = defaultProjects;
+      try{
+        const res = await fetch('/api/projects');
+        if(res.ok){ items = await res.json(); }
+      }catch(e){}
+      const grid = $('#project-grid');
+      grid.innerHTML = '';
+      items.forEach(p=>{
+        const el = document.createElement('a');
+        el.className = 'project hover-raise';
+        el.href = p.link || '#'; el.target = p.link? '_blank': '_self'; el.rel='noopener';
+        el.innerHTML = `<h4>${p.name}</h4><p>${p.desc||''}</p>`;
+        grid.appendChild(el);
+      })
+    })();
+  </script>
+
+  <!--
+    ========================= OPTIONAL BACKEND (Node/Express) =========================
+    If you want the dynamic features to work (visitors, contact, endorsements, projects),
+    deploy this tiny API with e.g. Render, Railway, Fly.io, or as serverless functions
+    on Netlify/Vercel. Update fetch URLs above (e.g. fetch('https://your-api/…')).
+
+    // server.js
+    const express = require('express');
+    const cors = require('cors');
+    const app = express();
+    app.use(cors());
+    app.use(express.json());
+
+    let endorse = 0; // in-memory demo; use a DB in production
+    let visitors = 0;
+    let projects = [
+      { name:'Deal Screener', desc:'Rank companies by traction and unit economics.', link:'#' },
+      { name:'Portfolio Dashboard', desc:'Tracks positions & risk.', link:'#' },
+    ];
+
+    app.get('/api/endorse', (req,res)=> res.json({count: endorse}));
+    app.post('/api/endorse', (req,res)=> {endorse++; res.json({ok:true,count:endorse})});
+    app.post('/api/visitors', (req,res)=> {visitors++; res.json({total: visitors})});
+    app.get('/api/projects', (req,res)=> res.json(projects));
+    app.post('/api/contact', async (req,res)=>{
+      const {name,email,message} = req.body || {};
+      if(!name||!email||!message) return res.status(400).json({error:'Missing fields'});
+      // TODO: forward to email (Mailgun/SendGrid), or log to a sheet/DB
+      console.log('Contact:', {name,email,message});
+      res.json({ok:true});
+    });
+
+    const port = process.env.PORT || 3000;
+    app.listen(port, ()=> console.log('API listening on', port));
+
+    // package.json
+    {
+      "name": "profile-api",
+      "type": "module",
+      "dependencies": {"express":"^4.19.2","cors":"^2.8.5"},
+      "scripts": {"start":"node server.js"}
+    }
+
+    ========================= DEPLOY NOTES =========================
+    • GitHub Pages: commit this index.html at the repo root (or /docs) and enable Pages.
+    • For the API, deploy server.js to a host; then in the HTML above change
+        fetch('/api/...') → fetch('https://your-deployed-api.example.com/api/...')
+    • If you prefer serverless: create functions /api/*.js on Netlify/Vercel matching the endpoints.
+  -->
+</body>
+</html>
