@@ -48,7 +48,14 @@
     nav a{padding:8px 12px;border-radius:10px;text-decoration:none;color:var(--ink-2)}
     nav a:hover, nav a.is-active{background:var(--cream-2)}
     nav a.is-active{color:var(--ink);font-weight:600}
-    .cta{border:1px solid var(--ink); padding:8px 12px;border-radius:999px;text-decoration:none;font-weight:600}
+    .cta{
+      border:1px solid var(--ink);
+      padding:12px 20px;
+      border-radius:999px;
+      text-decoration:none;
+      font-weight:700;
+      font-size:clamp(16px, 1.1rem, 20px);
+    }
 
     .hero{display:grid;grid-template-columns: 140px 1fr;gap:24px;padding:34px 20px 10px}
     .hero .photo{width:140px;height:140px;border-radius:18px;border:1px solid var(--ring);box-shadow:var(--shadow);object-fit:cover;background:#fff}
@@ -384,6 +391,12 @@
     const clearActiveNav = () => {
       navLinks.forEach((link) => link.classList.remove('is-active'));
     };
+    const exitNavFocus = () => {
+      document.body.classList.remove('nav-focus');
+      clearHighlight();
+      clearActiveNav();
+    };
+    let navFocusActivatedAt = 0;
     const setActiveNav = (hash) => {
       const matching = navLinks.find((link) => link.hash === hash);
       if (!matching) return false;
@@ -401,6 +414,7 @@
       document.body.classList.add('nav-focus');
       clearHighlight();
       section.classList.add('is-highlight');
+      navFocusActivatedAt = Date.now();
       if (section.id) {
         setActiveNav(`#${section.id}`);
       }
@@ -434,9 +448,17 @@
 
     document.addEventListener('keydown', (event) => {
       if (event.key !== 'Escape') return;
-      document.body.classList.remove('nav-focus');
-      clearHighlight();
-      clearActiveNav();
+      exitNavFocus();
+    });
+
+    const maybeExitOnScroll = () => {
+      if (!document.body.classList.contains('nav-focus')) return;
+      if (Date.now() - navFocusActivatedAt < 250) return;
+      exitNavFocus();
+    };
+
+    ['scroll', 'wheel', 'touchmove'].forEach((eventName) => {
+      window.addEventListener(eventName, maybeExitOnScroll, { passive: true });
     });
 
     if ('IntersectionObserver' in window) {
