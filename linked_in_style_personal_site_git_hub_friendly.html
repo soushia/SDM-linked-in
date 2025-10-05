@@ -97,7 +97,7 @@
     .hover-raise:hover{transform: translateY(-2px); box-shadow: 0 14px 30px rgba(0,0,0,.10), 0 4px 10px rgba(0,0,0,.08)}
   </style>
 </head>
-<body data-api-base="">
+<body>
   <!-- ========================= HEADER ========================= -->
   <header class="site">
     <div class="site-inner container">
@@ -258,7 +258,7 @@
         <!-- Contact -->
         <article class="card hover-raise" id="contact">
           <h2>Contact</h2>
-          <form id="contact-form" class="mix" onsubmit="return false">
+          <form id="contact-form" class="mix">
             <input aria-label="Your name" required name="name" placeholder="Name" style="padding:10px;border-radius:12px;border:1px solid var(--ring);flex:1;min-width:180px" />
             <input aria-label="Your email" required type="email" name="email" placeholder="Email" style="padding:10px;border-radius:12px;border:1px solid var(--ring);flex:1;min-width:180px" />
             <textarea aria-label="Your message" required name="message" placeholder="Message" rows="4" style="padding:10px;border-radius:12px;border:1px solid var(--ring);flex-basis:100%"></textarea>
@@ -289,119 +289,127 @@
 
   <script>
     // =========================
-    // Small JS helpers
+    // Helper utilities
     // =========================
-    const $ = (sel, scope=document) => scope.querySelector(sel);
-    const $$ = (sel, scope=document) => Array.from(scope.querySelectorAll(sel));
-    const apiBase = document.body.dataset.apiBase || '';
-    const apiFetch = (path, options={}) => fetch(`${apiBase}${path}`, {
-      ...options,
-      headers: {
-        Accept: 'application/json',
-        ...(options.headers || {})
+    const $ = (sel, scope = document) => scope.querySelector(sel);
+    const $$ = (sel, scope = document) => Array.from(scope.querySelectorAll(sel));
+
+    const storage = (() => {
+      try {
+        const { localStorage } = window;
+        const probe = '__sdm-probe__';
+        localStorage.setItem(probe, '1');
+        localStorage.removeItem(probe);
+        return localStorage;
+      } catch (error) {
+        console.warn('localStorage unavailable, continuing without persistence.', error);
+        return null;
       }
-    });
+    })();
+
+    const readNumber = (key, fallback = 0) => {
+      if (!storage) return fallback;
+      const raw = storage.getItem(key);
+      const parsed = Number.parseInt(raw ?? '', 10);
+      return Number.isFinite(parsed) ? parsed : fallback;
+    };
+
+    const writeNumber = (key, value) => {
+      if (!storage) return;
+      try {
+        storage.setItem(key, String(value));
+      } catch (error) {
+        console.warn('Unable to persist value to localStorage.', error);
+      }
+    };
 
     // Year
     $('#year').textContent = new Date().getFullYear();
 
-    // Endorsements (localStorage + optional backend)
-    const endorseKey = 'endorse-count-v1';
+    // Endorsements (fully client-side)
+    const ENDORSE_KEY = 'sdm-endorse-count';
     const endorseCountEl = $('#endorse-count');
-    let endorseCount = parseInt(localStorage.getItem(endorseKey) || '0', 10);
-    const syncEndorsements = async () => {
-      try{
-        const res = await apiFetch('/api/endorse', {method:'GET'});
-        if(res.ok){
-          const data = await res.json();
-          endorseCount = data.count ?? endorseCount;
-          localStorage.setItem(endorseKey, endorseCount);
-        } else {
-          throw new Error('Request failed');
-        }
-      }catch(e){/* no backend present */}
-      finally{endorseCountEl.textContent = `${endorseCount} endorsement${endorseCount===1?'':'s'}`}
+    let endorseCount = readNumber(ENDORSE_KEY, 0);
+    const renderEndorsements = () => {
+      endorseCountEl.textContent = `${endorseCount} endorsement${endorseCount === 1 ? '' : 's'}`;
     };
-    syncEndorsements();
-    $('#endorse-btn').addEventListener('click', async () =>{
-      endorseCount++;
-      localStorage.setItem(endorseKey, endorseCount);
-      endorseCountEl.textContent = `${endorseCount} endorsement${endorseCount===1?'':'s'}`;
-      try{ await apiFetch('/api/endorse', {method:'POST'});}catch(e){}
+    renderEndorsements();
+    $('#endorse-btn').addEventListener('click', () => {
+      endorseCount += 1;
+      writeNumber(ENDORSE_KEY, endorseCount);
+      renderEndorsements();
     });
 
-    // Visitor count (optional backend)
+    // Visitor count (tracked per unique browser)
+    const VISITOR_TOTAL_KEY = 'sdm-visitor-total';
+    const VISITOR_SEEN_KEY = 'sdm-visitor-seen';
     const visitorsEl = $('#visitors');
-    (async ()=>{
-      try{
-        const res = await apiFetch('/api/visitors', {method:'POST'});
-        if(!res.ok) throw new Error('Request failed');
-        const data = await res.json();
-        visitorsEl.textContent = data.total ?? '—';
-      }catch(e){
-        visitorsEl.textContent = 'offline';
+    let visitorTotal = readNumber(VISITOR_TOTAL_KEY, 0);
+    if (!storage) {
+      visitorsEl.textContent = 'offline';
+    } else {
+      if (!storage.getItem(VISITOR_SEEN_KEY)) {
+        visitorTotal += 1;
+        writeNumber(VISITOR_TOTAL_KEY, visitorTotal);
+        storage.setItem(VISITOR_SEEN_KEY, '1');
       }
-    })();
+      visitorsEl.textContent = visitorTotal;
+    }
 
-    // Contact form (optional backend with graceful fallback)
-    $('#contact-form').addEventListener('submit', async () =>{
-      const form = $('#contact-form');
+    // Contact form (graceful email fallback)
+    $('#contact-form').addEventListener('submit', (event) => {
+      event.preventDefault();
+      const form = event.currentTarget;
       const status = $('#send-status');
       const btn = $('#send-btn');
-      status.textContent = 'Sending…'; btn.disabled = true;
+      status.textContent = 'Preparing email…';
+      btn.disabled = true;
       const payload = Object.fromEntries(new FormData(form).entries());
-      try{
-        const res = await apiFetch('/api/contact', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload)});
-        if(res.ok){ status.textContent = 'Thanks! I will reply soon.'; form.reset(); }
-        else{
-          const error = await res.json().catch(()=>({}));
-          throw new Error(error?.error || 'backend missing');
-        }
-      }catch(e){
-        status.textContent =
-          e?.message === 'Too many contact attempts. Please try again later.'
-            ? 'You are sending messages too quickly. Please wait and try again.'
-            : e?.message === 'Invalid contact submission'
-              ? 'Please double-check your details and try again.'
-              : 'Backend not configured. Use the email link instead →';
-      }finally{ btn.disabled = false; }
+      const emailBody = [
+        'Hi Soushia!',
+        '',
+        `Name: ${payload.name}`,
+        `Email: ${payload.email}`,
+        '',
+        payload.message
+      ].join('\n');
+      const params = new URLSearchParams({
+        subject: 'Hello from your site',
+        body: emailBody
+      });
+      $('#mailto-fallback').href = `mailto:soushia@outlook.com?${params.toString()}`;
+      setTimeout(() => {
+        status.textContent = 'Please use the email link to get in touch →';
+        btn.disabled = false;
+      }, 300);
     });
 
-    // Projects (fetch from backend or fallback)
-    const defaultProjects = [
-      { name:'Deal Screener', desc:'A small tool to rank companies by traction and unit economics.', link:'#' },
-      { name:'Portfolio Dashboard', desc:'Python + SQL pipeline that tracks positions & risk.', link:'#' },
-      { name:'Class Scheduler', desc:'Simple web app to optimize course schedules.', link:'#' }
+    // Projects (static data inlined for single-file build)
+    const projects = [
+      { name: 'Deal Screener', desc: 'A small tool to rank companies by traction and unit economics.', link: '#' },
+      { name: 'Portfolio Dashboard', desc: 'Python + SQL pipeline that tracks positions & risk.', link: '#' },
+      { name: 'Class Scheduler', desc: 'Simple web app to optimize course schedules.', link: '#' }
     ];
-    (async ()=>{
-      let items = defaultProjects;
-      try{
-        const res = await apiFetch('/api/projects');
-        if(res.ok){ items = await res.json(); }
-        else{ throw new Error('Request failed'); }
-      }catch(e){}
-      const grid = $('#project-grid');
-      grid.innerHTML = '';
-      items.forEach(p=>{
-        const el = document.createElement('a');
-        el.className = 'project hover-raise';
-        el.href = p.link || '#'; el.target = p.link? '_blank': '_self'; el.rel='noopener';
-        el.innerHTML = `<h4>${p.name}</h4><p>${p.desc||''}</p>`;
-        grid.appendChild(el);
-      })
-    })();
+    const grid = $('#project-grid');
+    grid.innerHTML = '';
+    projects.forEach((project) => {
+      const el = document.createElement('a');
+      el.className = 'project hover-raise';
+      el.href = project.link || '#';
+      el.target = project.link ? '_blank' : '_self';
+      el.rel = 'noopener';
+      el.innerHTML = `<h4>${project.name}</h4><p>${project.desc || ''}</p>`;
+      grid.appendChild(el);
+    });
   </script>
 
   <!--
-    ========================= OPTIONAL BACKEND =========================
-    A production-ready Express backend now lives in server.js.
-    • Install dependencies and run the API locally: `npm install && npm start`
-    • Data persists to ./data/store.json (ignored by git) and contact messages
-      append to ./data/contact.log
-    • Requests are validated, rate-limited, and sanitised before being stored
-    • Deploy the API anywhere Node runs, then set
-      <body data-api-base="https://your-api.example.com"> so the frontend
-      targets the deployed origin instead of relative paths.
+    ========================= SINGLE-FILE NOTES =========================
+    This build inlines all styling and behaviour so it can be hosted as a
+    standalone HTML document. Visitor and endorsement counters rely on
+    localStorage; if a browser blocks storage the UI will still function
+    without persistence. The contact button now prepares a pre-filled email
+    draft instead of calling a backend service.
   -->
 </body>
 </html>
