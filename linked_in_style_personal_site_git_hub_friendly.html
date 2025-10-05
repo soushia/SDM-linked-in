@@ -48,7 +48,14 @@
     nav a{padding:8px 12px;border-radius:10px;text-decoration:none;color:var(--ink-2)}
     nav a:hover, nav a.is-active{background:var(--cream-2)}
     nav a.is-active{color:var(--ink);font-weight:600}
-    .cta{border:1px solid var(--ink); padding:8px 12px;border-radius:999px;text-decoration:none;font-weight:600}
+    .cta{
+      border:1px solid var(--ink);
+      padding:12px 20px;
+      border-radius:999px;
+      text-decoration:none;
+      font-weight:700;
+      font-size:clamp(16px, 1.1rem, 20px);
+    }
 
     .hero{display:grid;grid-template-columns: 140px 1fr;gap:24px;padding:34px 20px 10px}
     .hero .photo{width:140px;height:140px;border-radius:18px;border:1px solid var(--ring);box-shadow:var(--shadow);object-fit:cover;background:#fff}
@@ -98,9 +105,24 @@
     .hover-raise:hover{transform: translateY(-2px); box-shadow: 0 14px 30px rgba(0,0,0,.10), 0 4px 10px rgba(0,0,0,.08)}
 
     /* navigation focus fading */
-    .fadeable{transition: opacity .35s ease}
-    body.nav-focus .fadeable{opacity:.18}
-    body.nav-focus .fadeable.is-highlight{opacity:1}
+    .fadeable{transition: opacity .35s ease, transform .45s ease, box-shadow .45s ease; transform-origin:center top; will-change:opacity, transform}
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      background:rgba(11,11,11,.45);
+      opacity:0;
+      pointer-events:none;
+      transition:opacity .35s ease;
+      z-index:40;
+    }
+    body.nav-focus::before{opacity:.5}
+    body.nav-focus .fadeable{opacity:.16}
+    body.nav-focus .fadeable.is-highlight{opacity:1; position:relative; z-index:60; transform:scale(1.02); box-shadow:0 22px 55px rgba(0,0,0,.22)}
+    body.nav-focus header.site{box-shadow:0 18px 42px rgba(0,0,0,.12)}
+    header nav a{transition:background .3s ease, color .3s ease, transform .3s ease, opacity .3s ease}
+    body.nav-focus header nav a{opacity:.55}
+    body.nav-focus header nav a.is-active{opacity:1; transform:scale(1.08)}
   </style>
 </head>
 <body>
@@ -328,16 +350,18 @@
     const VISITOR_TOTAL_KEY = 'sdm-visitor-total';
     const VISITOR_SEEN_KEY = 'sdm-visitor-seen';
     const visitorsEl = $('#visitors');
-    let visitorTotal = readNumber(VISITOR_TOTAL_KEY, 0);
-    if (!storage) {
-      visitorsEl.textContent = 'offline';
-    } else {
-      if (!storage.getItem(VISITOR_SEEN_KEY)) {
-        visitorTotal += 1;
-        writeNumber(VISITOR_TOTAL_KEY, visitorTotal);
-        storage.setItem(VISITOR_SEEN_KEY, '1');
+    if (visitorsEl) {
+      let visitorTotal = readNumber(VISITOR_TOTAL_KEY, 0);
+      if (!storage) {
+        visitorsEl.textContent = 'offline';
+      } else {
+        if (!storage.getItem(VISITOR_SEEN_KEY)) {
+          visitorTotal += 1;
+          writeNumber(VISITOR_TOTAL_KEY, visitorTotal);
+          storage.setItem(VISITOR_SEEN_KEY, '1');
+        }
+        visitorsEl.textContent = visitorTotal;
       }
-      visitorsEl.textContent = visitorTotal;
     }
 
     // Projects (static data inlined for single-file build)
@@ -367,6 +391,12 @@
     const clearActiveNav = () => {
       navLinks.forEach((link) => link.classList.remove('is-active'));
     };
+    const exitNavFocus = () => {
+      document.body.classList.remove('nav-focus');
+      clearHighlight();
+      clearActiveNav();
+    };
+    let navFocusActivatedAt = 0;
     const setActiveNav = (hash) => {
       const matching = navLinks.find((link) => link.hash === hash);
       if (!matching) return false;
@@ -384,6 +414,7 @@
       document.body.classList.add('nav-focus');
       clearHighlight();
       section.classList.add('is-highlight');
+      navFocusActivatedAt = Date.now();
       if (section.id) {
         setActiveNav(`#${section.id}`);
       }
@@ -417,9 +448,17 @@
 
     document.addEventListener('keydown', (event) => {
       if (event.key !== 'Escape') return;
-      document.body.classList.remove('nav-focus');
-      clearHighlight();
-      clearActiveNav();
+      exitNavFocus();
+    });
+
+    const maybeExitOnScroll = () => {
+      if (!document.body.classList.contains('nav-focus')) return;
+      if (Date.now() - navFocusActivatedAt < 250) return;
+      exitNavFocus();
+    };
+
+    ['scroll', 'wheel', 'touchmove'].forEach((eventName) => {
+      window.addEventListener(eventName, maybeExitOnScroll, { passive: true });
     });
 
     if ('IntersectionObserver' in window) {
