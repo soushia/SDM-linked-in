@@ -226,6 +226,13 @@
 
       <!-- ========================= RIGHT COLUMN ========================= -->
       <aside class="right">
+        <!-- Languages -->
+        <article class="card hover-raise">
+          <h2>Languages</h2>
+          <p>Persian — Native/Bilingual</p>
+          <p>English — Native/Bilingual</p>
+        </article>
+
         <!-- Skills -->
         <article class="card hover-raise fadeable" data-section id="skills">
           <h2>Skills</h2>
@@ -257,7 +264,7 @@
           <h2>Contact</h2>
           <p>
             Don't hesitate to email me at
-            <a class="pill" href="mailto:soushia@outlook.com">soushia@outlook.com</a>.
+            <a href="mailto:soushia@outlook.com">soushia@outlook.com</a>.
           </p>
         </article>
 
@@ -268,8 +275,6 @@
             <a class="pill" href="https://github.com/" target="_blank" rel="noopener">GitHub</a>
             <a class="pill" href="https://www.linkedin.com/in/soushia" target="_blank" rel="noopener">LinkedIn</a>
             <a class="pill" href="#projects">Portfolio</a>
-            <button class="pill" id="endorse-btn" title="A fun micro‑interaction">+ Endorse</button>
-            <span class="pill" id="endorse-count">0 endorsements</span>
           </div>
         </article>
       </aside>
@@ -318,20 +323,6 @@
 
     // Year
     $('#year').textContent = new Date().getFullYear();
-
-    // Endorsements (fully client-side)
-    const ENDORSE_KEY = 'sdm-endorse-count';
-    const endorseCountEl = $('#endorse-count');
-    let endorseCount = readNumber(ENDORSE_KEY, 0);
-    const renderEndorsements = () => {
-      endorseCountEl.textContent = `${endorseCount} endorsement${endorseCount === 1 ? '' : 's'}`;
-    };
-    renderEndorsements();
-    $('#endorse-btn').addEventListener('click', () => {
-      endorseCount += 1;
-      writeNumber(ENDORSE_KEY, endorseCount);
-      renderEndorsements();
-    });
 
     // Visitor count (tracked per unique browser)
     const VISITOR_TOTAL_KEY = 'sdm-visitor-total';
@@ -448,7 +439,7 @@
   <!--
     ========================= SINGLE-FILE NOTES =========================
     This build inlines all styling and behaviour so it can be hosted as a
-    standalone HTML document. Visitor and endorsement counters rely on
+    standalone HTML document. Visitor counter relies on
     localStorage; if a browser blocks storage the UI will still function
     without persistence. The contact button now prepares a pre-filled email
     draft instead of calling a backend service.
