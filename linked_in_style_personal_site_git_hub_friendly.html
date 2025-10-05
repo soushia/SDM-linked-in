@@ -253,14 +253,10 @@
         <!-- Contact -->
         <article class="card hover-raise" id="contact">
           <h2>Contact</h2>
-          <form id="contact-form" class="mix">
-            <input aria-label="Your name" required name="name" placeholder="Name" style="padding:10px;border-radius:12px;border:1px solid var(--ring);flex:1;min-width:180px" />
-            <input aria-label="Your email" required type="email" name="email" placeholder="Email" style="padding:10px;border-radius:12px;border:1px solid var(--ring);flex:1;min-width:180px" />
-            <textarea aria-label="Your message" required name="message" placeholder="Message" rows="4" style="padding:10px;border-radius:12px;border:1px solid var(--ring);flex-basis:100%"></textarea>
-            <button class="cta" id="send-btn" style="cursor:pointer">Send</button>
-            <a id="mailto-fallback" class="pill" href="mailto:soushia@outlook.com?subject=Hello&body=Hi!" style="text-decoration:none">or email me</a>
-            <span id="send-status" class="meta"></span>
-          </form>
+          <p>
+            Don't hesitate to email me at
+            <a class="pill" href="mailto:soushia@outlook.com">soushia@outlook.com</a>.
+          </p>
         </article>
 
         <!-- Quick Links -->
@@ -362,6 +358,21 @@
         btn.disabled = false;
       }, 300);
     });
+    // Visitor count (tracked per unique browser)
+    const VISITOR_TOTAL_KEY = 'sdm-visitor-total';
+    const VISITOR_SEEN_KEY = 'sdm-visitor-seen';
+    const visitorsEl = $('#visitors');
+    let visitorTotal = readNumber(VISITOR_TOTAL_KEY, 0);
+    if (!storage) {
+      visitorsEl.textContent = 'offline';
+    } else {
+      if (!storage.getItem(VISITOR_SEEN_KEY)) {
+        visitorTotal += 1;
+        writeNumber(VISITOR_TOTAL_KEY, visitorTotal);
+        storage.setItem(VISITOR_SEEN_KEY, '1');
+      }
+      visitorsEl.textContent = visitorTotal;
+    }
 
     // Projects (static data inlined for single-file build)
     const projects = [
