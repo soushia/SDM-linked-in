@@ -83,31 +83,6 @@
     .hover-raise{transition: transform .15s ease, box-shadow .15s ease}
     .hover-raise:hover{transform: translateY(-2px); box-shadow: 0 14px 30px rgba(0,0,0,.10), 0 4px 10px rgba(0,0,0,.08)}
 
-    /* navigation fade removed */
-  </style>
-</head>
-<body>
-    /* navigation focus fading */
-    .fadeable{transition: opacity .35s ease, transform .45s ease, box-shadow .45s ease; transform-origin:center top; will-change:opacity, transform}
-    .nav-backdrop{
-      position:fixed;
-      inset:0;
-      background:rgba(11,11,11,.45);
-      opacity:0;
-      pointer-events:none;
-      transition:opacity .35s ease;
-      z-index:40;
-    }
-    body.nav-focus .nav-backdrop{
-      opacity:.5;
-      pointer-events:auto;
-    }
-    body.nav-focus .fadeable{opacity:.16}
-    body.nav-focus .fadeable.is-highlight{opacity:1; position:relative; z-index:60; transform:scale(1.02); box-shadow:0 22px 55px rgba(0,0,0,.22)}
-    body.nav-focus header.site{box-shadow:0 18px 42px rgba(0,0,0,.12)}
-    header nav a{transition:background .3s ease, color .3s ease, transform .3s ease, opacity .3s ease}
-    body.nav-focus header nav a{opacity:.55}
-    body.nav-focus header nav a.is-active{opacity:1; transform:scale(1.08)}
   </style>
 </head>
 <body>
