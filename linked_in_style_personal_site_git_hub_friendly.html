@@ -34,29 +34,8 @@
     .container{max-width:1100px;margin:0 auto;padding:20px}
 
     /* =========================
-       HEADER / HERO
+       HERO
        ========================= */
-    header.site{
-      position:sticky; top:0; z-index:50;
-      backdrop-filter: saturate(140%) blur(8px);
-      background: color-mix(in oklab, var(--cream) 80%, white);
-      border-bottom:1px solid var(--ring);
-    }
-    .site-inner{display:flex;gap:14px;align-items:center;justify-content:space-between;padding:10px 20px}
-    .brand{display:flex;align-items:center;gap:12px;text-decoration:none}
-    .avatar{width:40px;height:40px;border-radius:50%;border:1px solid var(--ring);box-shadow:var(--shadow);object-fit:cover;background:#fff}
-    nav a{padding:8px 12px;border-radius:10px;text-decoration:none;color:var(--ink-2)}
-    nav a:hover, nav a.is-active{background:var(--cream-2)}
-    nav a.is-active{color:var(--ink);font-weight:600}
-    .cta{
-      border:1px solid var(--ink);
-      padding:12px 20px;
-      border-radius:999px;
-      text-decoration:none;
-      font-weight:700;
-      font-size:clamp(16px, 1.1rem, 20px);
-    }
-
     .hero{display:grid;grid-template-columns: 140px 1fr;gap:24px;padding:34px 20px 10px}
     .hero .photo{width:140px;height:140px;border-radius:18px;border:1px solid var(--ring);box-shadow:var(--shadow);object-fit:cover;background:#fff}
     .headline{display:flex;flex-direction:column;gap:8px}
@@ -104,46 +83,12 @@
     .hover-raise{transition: transform .15s ease, box-shadow .15s ease}
     .hover-raise:hover{transform: translateY(-2px); box-shadow: 0 14px 30px rgba(0,0,0,.10), 0 4px 10px rgba(0,0,0,.08)}
 
-    /* navigation focus fading */
-    .fadeable{transition: opacity .35s ease, transform .45s ease, box-shadow .45s ease; transform-origin:center top; will-change:opacity, transform}
-    body::before{
-      content:"";
-      position:fixed;
-      inset:0;
-      background:rgba(11,11,11,.45);
-      opacity:0;
-      pointer-events:none;
-      transition:opacity .35s ease;
-      z-index:40;
-    }
-    body.nav-focus::before{opacity:.5}
-    body.nav-focus .fadeable{opacity:.16}
-    body.nav-focus .fadeable.is-highlight{opacity:1; position:relative; z-index:60; transform:scale(1.02); box-shadow:0 22px 55px rgba(0,0,0,.22)}
-    body.nav-focus header.site{box-shadow:0 18px 42px rgba(0,0,0,.12)}
-    header nav a{transition:background .3s ease, color .3s ease, transform .3s ease, opacity .3s ease}
-    body.nav-focus header nav a{opacity:.55}
-    body.nav-focus header nav a.is-active{opacity:1; transform:scale(1.08)}
+    /* navigation fade removed */
   </style>
 </head>
 <body>
-  <!-- ========================= HEADER ========================= -->
-  <header class="site">
-    <div class="site-inner container">
-      <a class="brand" href="#top">
-        <img class="avatar" src="https://picsum.photos/seed/soushia/200/200" alt="Soushia DooghaieMoghadam avatar"/>
-        <strong>Soushia DooghaieMoghadam</strong>
-      </a>
-      <nav>
-        <a href="#about">About</a>
-        <a href="#experience">Experience</a>
-        <a href="#projects">Projects</a>
-        <a href="#contact" class="cta">Contact</a>
-      </nav>
-    </div>
-  </header>
-
   <!-- ========================= HERO ========================= -->
-  <section class="hero container fadeable" id="top" aria-label="Intro" data-section>
+  <section class="hero container" id="top" aria-label="Intro" data-section>
     <img class="photo" src="https://picsum.photos/seed/portrait-soushia/400/400" alt="Soushia portrait"/>
     <div class="headline">
       <h1 class="title">Soushia DooghaieMoghadam</h1>
@@ -156,7 +101,7 @@
       <!-- ========================= LEFT COLUMN ========================= -->
       <section class="left">
         <!-- About -->
-        <article class="card hover-raise fadeable" id="about" data-section>
+        <article class="card hover-raise" id="about" data-section>
           <h2>About</h2>
           <p>
             I thrive in fast‑paced retail and e‑commerce environments, supporting seamless operations while keeping a strong customer‑first mindset. Currently pursuing an Associate of Science in Business Administration & Management at Saddleback College (Class of 2027).
@@ -168,7 +113,7 @@
         </article>
 
         <!-- Experience -->
-        <article class="card hover-raise fadeable" id="experience" data-section>
+        <article class="card hover-raise" id="experience" data-section>
           <h2>Experience</h2>
           <div class="timeline" id="experience-list">
             <div class="item">
@@ -238,7 +183,7 @@
         </article>
 
         <!-- Projects -->
-        <article class="card hover-raise fadeable" id="projects" data-section>
+        <article class="card hover-raise" id="projects" data-section>
           <h2>Projects</h2>
           <div class="projects" id="project-grid">
             <!-- Populated dynamically from /api/projects or fallback JSON -->
@@ -256,7 +201,7 @@
         </article>
 
         <!-- Skills -->
-        <article class="card hover-raise fadeable" data-section id="skills">
+        <article class="card hover-raise" data-section id="skills">
           <h2>Skills</h2>
           <ul class="skill-list">
             <li>Inventory Management</li>
@@ -266,14 +211,14 @@
         </article>
 
         <!-- Languages -->
-        <article class="card hover-raise fadeable" data-section id="languages">
+        <article class="card hover-raise" data-section id="languages">
           <h2>Languages</h2>
           <p>Persian — Native/Bilingual</p>
           <p>English — Native/Bilingual</p>
         </article>
 
         <!-- Education -->
-        <article class="card hover-raise fadeable" data-section id="education">
+        <article class="card hover-raise" data-section id="education">
           <h2>Education</h2>
           <p><strong>Saddleback College</strong> — A.S., Business Administration & Management</p>
           <p class="meta">Aug 2025 – Jul 2027</p>
@@ -282,7 +227,7 @@
         </article>
 
         <!-- Contact -->
-        <article class="card hover-raise fadeable" id="contact" data-section>
+        <article class="card hover-raise" id="contact" data-section>
           <h2>Contact</h2>
           <p>
             Don't hesitate to email me at
@@ -291,7 +236,7 @@
         </article>
 
         <!-- Quick Links -->
-        <article class="card hover-raise fadeable" data-section id="links">
+        <article class="card hover-raise" data-section id="links">
           <h2>Links</h2>
           <div class="mix">
             <a class="pill" href="https://github.com/" target="_blank" rel="noopener">GitHub</a>
@@ -382,97 +327,6 @@
       grid.appendChild(el);
     });
 
-    // Menu-driven focus fade
-    const fadeables = $$('[data-section]');
-    const navLinks = $$('header nav a');
-    const clearHighlight = () => {
-      fadeables.forEach((el) => el.classList.remove('is-highlight'));
-    };
-    const clearActiveNav = () => {
-      navLinks.forEach((link) => link.classList.remove('is-active'));
-    };
-    const exitNavFocus = () => {
-      document.body.classList.remove('nav-focus');
-      clearHighlight();
-      clearActiveNav();
-    };
-    let navFocusActivatedAt = 0;
-    const setActiveNav = (hash) => {
-      const matching = navLinks.find((link) => link.hash === hash);
-      if (!matching) return false;
-      navLinks.forEach((link) => {
-        if (link === matching) {
-          link.classList.add('is-active');
-        } else {
-          link.classList.remove('is-active');
-        }
-      });
-      return true;
-    };
-    const highlightSection = (section) => {
-      if (!section) return;
-      document.body.classList.add('nav-focus');
-      clearHighlight();
-      section.classList.add('is-highlight');
-      navFocusActivatedAt = Date.now();
-      if (section.id) {
-        setActiveNav(`#${section.id}`);
-      }
-    };
-    const activateByHash = (hash) => {
-      if (!hash) return;
-      const target = document.querySelector(hash);
-      if (!target || !fadeables.includes(target)) return;
-      highlightSection(target);
-    };
-
-    const schedule = window.requestAnimationFrame
-      ? window.requestAnimationFrame.bind(window)
-      : (fn) => setTimeout(fn, 0);
-
-    navLinks.forEach((link) => {
-      link.addEventListener('click', () => {
-        const { hash } = link;
-        if (!hash) return;
-        schedule(() => activateByHash(hash));
-      });
-    });
-
-    window.addEventListener('hashchange', () => {
-      activateByHash(window.location.hash);
-    });
-
-    if (window.location.hash) {
-      activateByHash(window.location.hash);
-    }
-
-    document.addEventListener('keydown', (event) => {
-      if (event.key !== 'Escape') return;
-      exitNavFocus();
-    });
-
-    const maybeExitOnScroll = () => {
-      if (!document.body.classList.contains('nav-focus')) return;
-      if (Date.now() - navFocusActivatedAt < 250) return;
-      exitNavFocus();
-    };
-
-    ['scroll', 'wheel', 'touchmove'].forEach((eventName) => {
-      window.addEventListener(eventName, maybeExitOnScroll, { passive: true });
-    });
-
-    if ('IntersectionObserver' in window) {
-      const observer = new IntersectionObserver((entries) => {
-        if (!document.body.classList.contains('nav-focus')) return;
-        const visible = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-        if (!visible) return;
-        highlightSection(visible.target);
-      }, { threshold: 0.55 });
-
-      fadeables.forEach((section) => observer.observe(section));
-    }
   </script>
 
   <!--
