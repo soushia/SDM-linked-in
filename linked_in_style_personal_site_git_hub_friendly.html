@@ -54,8 +54,9 @@
     .headline{display:flex;flex-direction:column;gap:8px}
     .headline .title{font-weight:800}
     .meta{color:var(--muted)}
-    .badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
-    .badge{border:1px solid var(--ink);padding:6px 10px;border-radius:999px;font-size:14px}
+    /* Ensure any legacy hero skill badges remain hidden */
+    .hero .badges,
+    .hero .badge{display:none!important}
 
     /* =========================
        LAYOUT & CARDS
@@ -119,11 +120,6 @@
     <div class="headline">
       <h1 class="title">Soushia DooghaieMoghadam</h1>
       <p class="meta">Business & Finance Student • Laguna Niguel, CA • Open to opportunities</p>
-      <div class="badges">
-        <span class="badge">Bilingual: Persian / English</span>
-        <span class="badge">Customer Service</span>
-        <span class="badge">E‑commerce Ops</span>
-      </div>
     </div>
   </section>
 
@@ -331,33 +327,6 @@
       renderEndorsements();
     });
 
-    // Contact form (graceful email fallback)
-    $('#contact-form').addEventListener('submit', (event) => {
-      event.preventDefault();
-      const form = event.currentTarget;
-      const status = $('#send-status');
-      const btn = $('#send-btn');
-      status.textContent = 'Preparing email…';
-      btn.disabled = true;
-      const payload = Object.fromEntries(new FormData(form).entries());
-      const emailBody = [
-        'Hi Soushia!',
-        '',
-        `Name: ${payload.name}`,
-        `Email: ${payload.email}`,
-        '',
-        payload.message
-      ].join('\n');
-      const params = new URLSearchParams({
-        subject: 'Hello from your site',
-        body: emailBody
-      });
-      $('#mailto-fallback').href = `mailto:soushia@outlook.com?${params.toString()}`;
-      setTimeout(() => {
-        status.textContent = 'Please use the email link to get in touch →';
-        btn.disabled = false;
-      }, 300);
-    });
     // Visitor count (tracked per unique browser)
     const VISITOR_TOTAL_KEY = 'sdm-visitor-total';
     const VISITOR_SEEN_KEY = 'sdm-visitor-seen';
