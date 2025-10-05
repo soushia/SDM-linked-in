@@ -46,7 +46,8 @@
     .brand{display:flex;align-items:center;gap:12px;text-decoration:none}
     .avatar{width:40px;height:40px;border-radius:50%;border:1px solid var(--ring);box-shadow:var(--shadow);object-fit:cover;background:#fff}
     nav a{padding:8px 12px;border-radius:10px;text-decoration:none;color:var(--ink-2)}
-    nav a:hover{background:var(--cream-2)}
+    nav a:hover, nav a.is-active{background:var(--cream-2)}
+    nav a.is-active{color:var(--ink);font-weight:600}
     .cta{border:1px solid var(--ink); padding:8px 12px;border-radius:999px;text-decoration:none;font-weight:600}
 
     .hero{display:grid;grid-template-columns: 140px 1fr;gap:24px;padding:34px 20px 10px}
@@ -95,6 +96,11 @@
     /* micro‑interactions */
     .hover-raise{transition: transform .15s ease, box-shadow .15s ease}
     .hover-raise:hover{transform: translateY(-2px); box-shadow: 0 14px 30px rgba(0,0,0,.10), 0 4px 10px rgba(0,0,0,.08)}
+
+    /* navigation focus fading */
+    .fadeable{transition: opacity .35s ease}
+    body.nav-focus .fadeable{opacity:.18}
+    body.nav-focus .fadeable.is-highlight{opacity:1}
   </style>
 </head>
 <body>
@@ -115,7 +121,7 @@
   </header>
 
   <!-- ========================= HERO ========================= -->
-  <section class="hero container" id="top" aria-label="Intro">
+  <section class="hero container fadeable" id="top" aria-label="Intro" data-section>
     <img class="photo" src="https://picsum.photos/seed/portrait-soushia/400/400" alt="Soushia portrait"/>
     <div class="headline">
       <h1 class="title">Soushia DooghaieMoghadam</h1>
@@ -128,7 +134,7 @@
       <!-- ========================= LEFT COLUMN ========================= -->
       <section class="left">
         <!-- About -->
-        <article class="card hover-raise" id="about">
+        <article class="card hover-raise fadeable" id="about" data-section>
           <h2>About</h2>
           <p>
             I thrive in fast‑paced retail and e‑commerce environments, supporting seamless operations while keeping a strong customer‑first mindset. Currently pursuing an Associate of Science in Business Administration & Management at Saddleback College (Class of 2027).
@@ -140,7 +146,7 @@
         </article>
 
         <!-- Experience -->
-        <article class="card hover-raise" id="experience">
+        <article class="card hover-raise fadeable" id="experience" data-section>
           <h2>Experience</h2>
           <div class="timeline" id="experience-list">
             <div class="item">
@@ -210,7 +216,7 @@
         </article>
 
         <!-- Projects -->
-        <article class="card hover-raise" id="projects">
+        <article class="card hover-raise fadeable" id="projects" data-section>
           <h2>Projects</h2>
           <div class="projects" id="project-grid">
             <!-- Populated dynamically from /api/projects or fallback JSON -->
@@ -228,7 +234,7 @@
         </article>
 
         <!-- Skills -->
-        <article class="card hover-raise">
+        <article class="card hover-raise fadeable" data-section id="skills">
           <h2>Skills</h2>
           <ul class="skill-list">
             <li>Inventory Management</li>
@@ -237,8 +243,15 @@
           </ul>
         </article>
 
+        <!-- Languages -->
+        <article class="card hover-raise fadeable" data-section id="languages">
+          <h2>Languages</h2>
+          <p>Persian — Native/Bilingual</p>
+          <p>English — Native/Bilingual</p>
+        </article>
+
         <!-- Education -->
-        <article class="card hover-raise">
+        <article class="card hover-raise fadeable" data-section id="education">
           <h2>Education</h2>
           <p><strong>Saddleback College</strong> — A.S., Business Administration & Management</p>
           <p class="meta">Aug 2025 – Jul 2027</p>
@@ -247,7 +260,7 @@
         </article>
 
         <!-- Contact -->
-        <article class="card hover-raise" id="contact">
+        <article class="card hover-raise fadeable" id="contact" data-section>
           <h2>Contact</h2>
           <p>
             Don't hesitate to email me at
@@ -256,7 +269,7 @@
         </article>
 
         <!-- Quick Links -->
-        <article class="card hover-raise">
+        <article class="card hover-raise fadeable" data-section id="links">
           <h2>Links</h2>
           <div class="mix">
             <a class="pill" href="https://github.com/" target="_blank" rel="noopener">GitHub</a>
@@ -344,6 +357,83 @@
       el.innerHTML = `<h4>${project.name}</h4><p>${project.desc || ''}</p>`;
       grid.appendChild(el);
     });
+
+    // Menu-driven focus fade
+    const fadeables = $$('[data-section]');
+    const navLinks = $$('header nav a');
+    const clearHighlight = () => {
+      fadeables.forEach((el) => el.classList.remove('is-highlight'));
+    };
+    const clearActiveNav = () => {
+      navLinks.forEach((link) => link.classList.remove('is-active'));
+    };
+    const setActiveNav = (hash) => {
+      const matching = navLinks.find((link) => link.hash === hash);
+      if (!matching) return false;
+      navLinks.forEach((link) => {
+        if (link === matching) {
+          link.classList.add('is-active');
+        } else {
+          link.classList.remove('is-active');
+        }
+      });
+      return true;
+    };
+    const highlightSection = (section) => {
+      if (!section) return;
+      document.body.classList.add('nav-focus');
+      clearHighlight();
+      section.classList.add('is-highlight');
+      if (section.id) {
+        setActiveNav(`#${section.id}`);
+      }
+    };
+    const activateByHash = (hash) => {
+      if (!hash) return;
+      const target = document.querySelector(hash);
+      if (!target || !fadeables.includes(target)) return;
+      highlightSection(target);
+    };
+
+    const schedule = window.requestAnimationFrame
+      ? window.requestAnimationFrame.bind(window)
+      : (fn) => setTimeout(fn, 0);
+
+    navLinks.forEach((link) => {
+      link.addEventListener('click', () => {
+        const { hash } = link;
+        if (!hash) return;
+        schedule(() => activateByHash(hash));
+      });
+    });
+
+    window.addEventListener('hashchange', () => {
+      activateByHash(window.location.hash);
+    });
+
+    if (window.location.hash) {
+      activateByHash(window.location.hash);
+    }
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key !== 'Escape') return;
+      document.body.classList.remove('nav-focus');
+      clearHighlight();
+      clearActiveNav();
+    });
+
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries) => {
+        if (!document.body.classList.contains('nav-focus')) return;
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (!visible) return;
+        highlightSection(visible.target);
+      }, { threshold: 0.55 });
+
+      fadeables.forEach((section) => observer.observe(section));
+    }
   </script>
 
   <!--
