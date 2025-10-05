@@ -97,7 +97,7 @@
     .hover-raise:hover{transform: translateY(-2px); box-shadow: 0 14px 30px rgba(0,0,0,.10), 0 4px 10px rgba(0,0,0,.08)}
   </style>
 </head>
-<body>
+<body data-api-base="">
   <!-- ========================= HEADER ========================= -->
   <header class="site">
     <div class="site-inner container">
@@ -293,6 +293,14 @@
     // =========================
     const $ = (sel, scope=document) => scope.querySelector(sel);
     const $$ = (sel, scope=document) => Array.from(scope.querySelectorAll(sel));
+    const apiBase = document.body.dataset.apiBase || '';
+    const apiFetch = (path, options={}) => fetch(`${apiBase}${path}`, {
+      ...options,
+      headers: {
+        Accept: 'application/json',
+        ...(options.headers || {})
+      }
+    });
 
     // Year
     $('#year').textContent = new Date().getFullYear();
@@ -303,11 +311,13 @@
     let endorseCount = parseInt(localStorage.getItem(endorseKey) || '0', 10);
     const syncEndorsements = async () => {
       try{
-        const res = await fetch('/api/endorse', {method:'GET'});
+        const res = await apiFetch('/api/endorse', {method:'GET'});
         if(res.ok){
           const data = await res.json();
           endorseCount = data.count ?? endorseCount;
           localStorage.setItem(endorseKey, endorseCount);
+        } else {
+          throw new Error('Request failed');
         }
       }catch(e){/* no backend present */}
       finally{endorseCountEl.textContent = `${endorseCount} endorsement${endorseCount===1?'':'s'}`}
@@ -317,14 +327,15 @@
       endorseCount++;
       localStorage.setItem(endorseKey, endorseCount);
       endorseCountEl.textContent = `${endorseCount} endorsement${endorseCount===1?'':'s'}`;
-      try{ await fetch('/api/endorse', {method:'POST'});}catch(e){}
+      try{ await apiFetch('/api/endorse', {method:'POST'});}catch(e){}
     });
 
     // Visitor count (optional backend)
     const visitorsEl = $('#visitors');
     (async ()=>{
       try{
-        const res = await fetch('/api/visitors', {method:'POST'});
+        const res = await apiFetch('/api/visitors', {method:'POST'});
+        if(!res.ok) throw new Error('Request failed');
         const data = await res.json();
         visitorsEl.textContent = data.total ?? '—';
       }catch(e){
@@ -340,11 +351,19 @@
       status.textContent = 'Sending…'; btn.disabled = true;
       const payload = Object.fromEntries(new FormData(form).entries());
       try{
-        const res = await fetch('/api/contact', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload)});
+        const res = await apiFetch('/api/contact', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload)});
         if(res.ok){ status.textContent = 'Thanks! I will reply soon.'; form.reset(); }
-        else{ throw new Error('backend missing') }
+        else{
+          const error = await res.json().catch(()=>({}));
+          throw new Error(error?.error || 'backend missing');
+        }
       }catch(e){
-        status.textContent = 'Backend not configured. Use the email link instead →';
+        status.textContent =
+          e?.message === 'Too many contact attempts. Please try again later.'
+            ? 'You are sending messages too quickly. Please wait and try again.'
+            : e?.message === 'Invalid contact submission'
+              ? 'Please double-check your details and try again.'
+              : 'Backend not configured. Use the email link instead →';
       }finally{ btn.disabled = false; }
     });
 
@@ -357,8 +376,9 @@
     (async ()=>{
       let items = defaultProjects;
       try{
-        const res = await fetch('/api/projects');
+        const res = await apiFetch('/api/projects');
         if(res.ok){ items = await res.json(); }
+        else{ throw new Error('Request failed'); }
       }catch(e){}
       const grid = $('#project-grid');
       grid.innerHTML = '';
@@ -373,53 +393,15 @@
   </script>
 
   <!--
-    ========================= OPTIONAL BACKEND (Node/Express) =========================
-    If you want the dynamic features to work (visitors, contact, endorsements, projects),
-    deploy this tiny API with e.g. Render, Railway, Fly.io, or as serverless functions
-    on Netlify/Vercel. Update fetch URLs above (e.g. fetch('https://your-api/…')).
-
-    // server.js
-    const express = require('express');
-    const cors = require('cors');
-    const app = express();
-    app.use(cors());
-    app.use(express.json());
-
-    let endorse = 0; // in-memory demo; use a DB in production
-    let visitors = 0;
-    let projects = [
-      { name:'Deal Screener', desc:'Rank companies by traction and unit economics.', link:'#' },
-      { name:'Portfolio Dashboard', desc:'Tracks positions & risk.', link:'#' },
-    ];
-
-    app.get('/api/endorse', (req,res)=> res.json({count: endorse}));
-    app.post('/api/endorse', (req,res)=> {endorse++; res.json({ok:true,count:endorse})});
-    app.post('/api/visitors', (req,res)=> {visitors++; res.json({total: visitors})});
-    app.get('/api/projects', (req,res)=> res.json(projects));
-    app.post('/api/contact', async (req,res)=>{
-      const {name,email,message} = req.body || {};
-      if(!name||!email||!message) return res.status(400).json({error:'Missing fields'});
-      // TODO: forward to email (Mailgun/SendGrid), or log to a sheet/DB
-      console.log('Contact:', {name,email,message});
-      res.json({ok:true});
-    });
-
-    const port = process.env.PORT || 3000;
-    app.listen(port, ()=> console.log('API listening on', port));
-
-    // package.json
-    {
-      "name": "profile-api",
-      "type": "module",
-      "dependencies": {"express":"^4.19.2","cors":"^2.8.5"},
-      "scripts": {"start":"node server.js"}
-    }
-
-    ========================= DEPLOY NOTES =========================
-    • GitHub Pages: commit this index.html at the repo root (or /docs) and enable Pages.
-    • For the API, deploy server.js to a host; then in the HTML above change
-        fetch('/api/...') → fetch('https://your-deployed-api.example.com/api/...')
-    • If you prefer serverless: create functions /api/*.js on Netlify/Vercel matching the endpoints.
+    ========================= OPTIONAL BACKEND =========================
+    A production-ready Express backend now lives in server.js.
+    • Install dependencies and run the API locally: `npm install && npm start`
+    • Data persists to ./data/store.json (ignored by git) and contact messages
+      append to ./data/contact.log
+    • Requests are validated, rate-limited, and sanitised before being stored
+    • Deploy the API anywhere Node runs, then set
+      <body data-api-base="https://your-api.example.com"> so the frontend
+      targets the deployed origin instead of relative paths.
   -->
 </body>
 </html>
