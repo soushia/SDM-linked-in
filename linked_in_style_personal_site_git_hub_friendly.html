@@ -87,6 +87,48 @@
   </style>
 </head>
 <body>
+    /* navigation focus fading */
+    .fadeable{transition: opacity .35s ease, transform .45s ease, box-shadow .45s ease; transform-origin:center top; will-change:opacity, transform}
+    .nav-backdrop{
+      position:fixed;
+      inset:0;
+      background:rgba(11,11,11,.45);
+      opacity:0;
+      pointer-events:none;
+      transition:opacity .35s ease;
+      z-index:40;
+    }
+    body.nav-focus .nav-backdrop{
+      opacity:.5;
+      pointer-events:auto;
+    }
+    body.nav-focus .fadeable{opacity:.16}
+    body.nav-focus .fadeable.is-highlight{opacity:1; position:relative; z-index:60; transform:scale(1.02); box-shadow:0 22px 55px rgba(0,0,0,.22)}
+    body.nav-focus header.site{box-shadow:0 18px 42px rgba(0,0,0,.12)}
+    header nav a{transition:background .3s ease, color .3s ease, transform .3s ease, opacity .3s ease}
+    body.nav-focus header nav a{opacity:.55}
+    body.nav-focus header nav a.is-active{opacity:1; transform:scale(1.08)}
+  </style>
+</head>
+<body>
+  <!-- ========================= HEADER ========================= -->
+  <div class="nav-backdrop" data-nav-backdrop aria-hidden="true"></div>
+
+  <header class="site">
+    <div class="site-inner container">
+      <a class="brand" href="#top">
+        <img class="avatar" src="https://picsum.photos/seed/soushia/200/200" alt="Soushia DooghaieMoghadam avatar"/>
+        <strong>Soushia DooghaieMoghadam</strong>
+      </a>
+      <nav>
+        <a href="#about">About</a>
+        <a href="#experience">Experience</a>
+        <a href="#projects">Projects</a>
+        <a href="#contact" class="cta">Contact</a>
+      </nav>
+    </div>
+  </header>
+
   <!-- ========================= HERO ========================= -->
   <section class="hero container" id="top" aria-label="Intro" data-section>
     <img class="photo" src="https://picsum.photos/seed/portrait-soushia/400/400" alt="Soushia portrait"/>
@@ -327,6 +369,119 @@
       grid.appendChild(el);
     });
 
+    // Menu-driven focus fade
+    const fadeables = $$('[data-section]');
+    const navLinks = $$('header nav a');
+    const navBackdrop = $('[data-nav-backdrop]');
+    const reduceMotionMedia = typeof window.matchMedia === 'function'
+      ? window.matchMedia('(prefers-reduced-motion: reduce)')
+      : { matches: false };
+    const getScrollBehavior = () => (reduceMotionMedia.matches ? 'auto' : 'smooth');
+    const centerSection = (section) => {
+      if (!section || typeof section.scrollIntoView !== 'function') return;
+      const behavior = getScrollBehavior();
+      try {
+        section.scrollIntoView({ behavior, block: 'center', inline: 'nearest' });
+      } catch (error) {
+        section.scrollIntoView();
+      }
+    };
+    const clearHighlight = () => {
+      fadeables.forEach((el) => el.classList.remove('is-highlight'));
+    };
+    const clearActiveNav = () => {
+      navLinks.forEach((link) => link.classList.remove('is-active'));
+    };
+    const exitNavFocus = () => {
+      document.body.classList.remove('nav-focus');
+      clearHighlight();
+      clearActiveNav();
+    };
+    let navFocusActivatedAt = 0;
+    const setActiveNav = (hash) => {
+      const matching = navLinks.find((link) => link.hash === hash);
+      if (!matching) return false;
+      navLinks.forEach((link) => {
+        if (link === matching) {
+          link.classList.add('is-active');
+        } else {
+          link.classList.remove('is-active');
+        }
+      });
+      return true;
+    };
+    const highlightSection = (section, { scroll = false } = {}) => {
+      if (!section) return;
+      document.body.classList.add('nav-focus');
+      clearHighlight();
+      section.classList.add('is-highlight');
+      navFocusActivatedAt = Date.now();
+      if (section.id) {
+        setActiveNav(`#${section.id}`);
+      }
+      if (scroll) {
+        centerSection(section);
+      }
+    };
+    const activateByHash = (hash, options = {}) => {
+      if (!hash) return;
+      const target = document.querySelector(hash);
+      if (!target || !fadeables.includes(target)) return;
+      highlightSection(target, options);
+    };
+
+    const schedule = window.requestAnimationFrame
+      ? window.requestAnimationFrame.bind(window)
+      : (fn) => setTimeout(fn, 0);
+
+    navLinks.forEach((link) => {
+      link.addEventListener('click', () => {
+        const { hash } = link;
+        if (!hash) return;
+        const shouldScrollImmediately = window.location.hash === hash;
+        schedule(() => activateByHash(hash, { scroll: shouldScrollImmediately }));
+      });
+    });
+
+    window.addEventListener('hashchange', () => {
+      activateByHash(window.location.hash, { scroll: true });
+    });
+
+    if (window.location.hash) {
+      activateByHash(window.location.hash, { scroll: true });
+    }
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key !== 'Escape') return;
+      exitNavFocus();
+    });
+
+    const maybeExitOnScroll = () => {
+      if (!document.body.classList.contains('nav-focus')) return;
+      if (Date.now() - navFocusActivatedAt < 250) return;
+      exitNavFocus();
+    };
+
+    ['scroll', 'wheel', 'touchmove'].forEach((eventName) => {
+      window.addEventListener(eventName, maybeExitOnScroll, { passive: true });
+    });
+
+    if (navBackdrop) {
+      navBackdrop.addEventListener('click', exitNavFocus);
+    }
+
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries) => {
+        if (!document.body.classList.contains('nav-focus')) return;
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (!visible) return;
+        highlightSection(visible.target);
+      }, { threshold: 0.55 });
+
+      fadeables.forEach((section) => observer.observe(section));
+    }
   </script>
 
   <!--
