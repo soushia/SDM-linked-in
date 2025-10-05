@@ -140,7 +140,6 @@
           <div class="mix">
             <span class="pill">Seeking internships</span>
             <span class="pill">Remote‑friendly</span>
-            <span class="pill" id="visitor-pill" title="Unique visitors">👀 Visitors: <em id="visitors">—</em></span>
           </div>
         </article>
 
@@ -335,22 +334,6 @@
       writeNumber(ENDORSE_KEY, endorseCount);
       renderEndorsements();
     });
-
-    // Visitor count (tracked per unique browser)
-    const VISITOR_TOTAL_KEY = 'sdm-visitor-total';
-    const VISITOR_SEEN_KEY = 'sdm-visitor-seen';
-    const visitorsEl = $('#visitors');
-    let visitorTotal = readNumber(VISITOR_TOTAL_KEY, 0);
-    if (!storage) {
-      visitorsEl.textContent = 'offline';
-    } else {
-      if (!storage.getItem(VISITOR_SEEN_KEY)) {
-        visitorTotal += 1;
-        writeNumber(VISITOR_TOTAL_KEY, visitorTotal);
-        storage.setItem(VISITOR_SEEN_KEY, '1');
-      }
-      visitorsEl.textContent = visitorTotal;
-    }
 
     // Contact form (graceful email fallback)
     $('#contact-form').addEventListener('submit', (event) => {
