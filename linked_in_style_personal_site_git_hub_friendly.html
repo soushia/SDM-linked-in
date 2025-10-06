@@ -3,288 +3,759 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Soushia DooghaieMoghadam — Profile</title>
-  <meta name="description" content="LinkedIn‑style personal profile for Soushia DooghaieMoghadam: experience, projects, skills, and contact." />
-  <meta name="theme-color" content="#0b0b0b" />
+  <title>Soushia DooghaieMoghadam — Personal Site</title>
+  <meta
+    name="description"
+    content="Personal website for Soushia DooghaieMoghadam highlighting experience, projects, and ways to connect."
+  />
+  <meta name="theme-color" content="#f5f6f8" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
   <style>
-    /* =========================
-       THEME & RESET
-       ========================= */
-    :root{
-      --cream:#f6efe6;         /* neutral cream */
-      --cream-2:#efe7dc;
-      --ink:#0b0b0b;           /* near black */
-      --ink-2:#222;
-      --muted:#6e6b67;         /* warm gray */
-      --accent:#0b0b0b;        /* subtle, same as ink for minimalist */
-      --card:#fffaf2;          /* lighter card */
-      --ring: rgba(11,11,11,.12);
-      --shadow: 0 10px 25px rgba(0,0,0,.08), 0 2px 8px rgba(0,0,0,.06);
-      --radius: 18px;
+    :root {
+      color-scheme: light;
+      --bg: #f5f6f8;
+      --bg-soft: #eceff3;
+      --surface: #ffffff;
+      --surface-soft: rgba(255, 255, 255, 0.9);
+      --text: #1f2933;
+      --muted: #52606d;
+      --accent: #4f7cac;
+      --accent-soft: rgba(79, 124, 172, 0.15);
+      --border: rgba(148, 163, 184, 0.35);
+      --radius-lg: 28px;
+      --radius-md: 20px;
+      --radius-sm: 12px;
+      --shadow-lg: 0 30px 60px rgba(15, 23, 42, 0.12);
+      --shadow-md: 0 18px 38px rgba(15, 23, 42, 0.08);
+      --shadow-sm: 0 8px 24px rgba(15, 23, 42, 0.06);
+      --transition: 220ms cubic-bezier(0.4, 0, 0.2, 1);
+      font-family: "Outfit", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
-    *{box-sizing:border-box}
-    html,body{margin:0;padding:0;background:var(--cream);color:var(--ink);font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji"}
-    img{max-width:100%;display:block}
-    a{color:inherit}
-    h1,h2,h3{line-height:1.15;margin:0 0 .6rem}
-    h1{font-size: clamp(32px, 4vw, 44px)}
-    h2{font-size: clamp(22px, 2.6vw, 28px)}
-    h3{font-size: clamp(18px, 2.2vw, 22px)}
-    p{margin:0 0 1rem}
-    .container{max-width:1100px;margin:0 auto;padding:20px}
 
-    /* =========================
-       HERO
-       ========================= */
-    .hero{display:grid;grid-template-columns: 140px 1fr;gap:24px;padding:34px 20px 10px}
-    .hero .photo{width:140px;height:140px;border-radius:18px;border:1px solid var(--ring);box-shadow:var(--shadow);object-fit:cover;background:#fff}
-    .headline{display:flex;flex-direction:column;gap:8px}
-    .headline .title{font-weight:800}
-    .meta{color:var(--muted)}
-    /* Ensure any legacy hero skill badges remain hidden */
-    .hero .badges,
-    .hero .badge{display:none!important}
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
 
-    /* =========================
-       LAYOUT & CARDS
-       ========================= */
-    main{padding:10px 20px 60px}
-    .grid{display:grid;grid-template-columns:2fr 1fr;gap:22px}
-    @media (max-width: 900px){.grid{grid-template-columns:1fr}}
+    body {
+      margin: 0;
+      background: radial-gradient(circle at 20% -10%, rgba(79, 124, 172, 0.18), transparent 55%),
+        radial-gradient(circle at 80% 10%, rgba(120, 141, 169, 0.18), transparent 45%),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
 
-    .card{background:var(--card); border:1px solid var(--ring); border-radius:var(--radius); box-shadow:var(--shadow); padding:18px}
-    .card + .card{margin-top:16px}
-    .card h3{display:flex;align-items:center;justify-content:space-between}
-    .mix{display:flex;gap:12px;flex-wrap:wrap}
-    .role{display:grid;grid-template-columns: 56px 1fr;gap:14px}
-    .role .logo{width:56px;height:56px;border-radius:12px;border:1px solid var(--ring);background:#fff;display:grid;place-items:center;font-weight:700}
-    .role .period{color:var(--muted);font-size:14px}
+    img {
+      max-width: 100%;
+      border-radius: inherit;
+      display: block;
+    }
 
-    .chip{padding:6px 10px;border:1px solid var(--ink);border-radius:999px;font-size:13px}
-    .skills{display:flex;gap:8px;flex-wrap:wrap}
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
 
-    .skill-list{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+    p {
+      margin: 0 0 1.2rem;
+    }
 
-    .timeline{position:relative}
-    .timeline:before{content:"";position:absolute;left:28px;top:0;bottom:0;width:2px;background:var(--ring)}
-    .item{position:relative;padding-left:56px;margin:18px 0}
-    .dot{position:absolute;left:20px;top:8px;width:18px;height:18px;background:#fff;border:2px solid var(--ink);border-radius:50%}
+    h1, h2, h3, h4 {
+      margin: 0 0 0.6rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
 
-    .pill{border:1px solid var(--ink);border-radius:999px;padding:6px 12px;font-size:14px}
+    h1 {
+      font-size: clamp(2.5rem, 5vw, 3.4rem);
+    }
 
-    .projects{display:grid;grid-template-columns: repeat(2, 1fr);gap:14px}
-    @media (max-width:800px){.projects{grid-template-columns: 1fr}}
-    .project{padding:16px;border:1px dashed var(--ink);border-radius:16px;background:linear-gradient(0deg, rgba(255,255,255,.4), transparent)}
-    .project h4{margin:0 0 4px}
+    h2 {
+      font-size: clamp(1.6rem, 3vw, 2rem);
+    }
 
-    footer{margin-top:36px;color:var(--muted);font-size:14px;text-align:center}
+    h3 {
+      font-size: clamp(1.25rem, 2.4vw, 1.5rem);
+    }
 
-    /* micro‑interactions */
-    .hover-raise{transition: transform .15s ease, box-shadow .15s ease}
-    .hover-raise:hover{transform: translateY(-2px); box-shadow: 0 14px 30px rgba(0,0,0,.10), 0 4px 10px rgba(0,0,0,.08)}
+    h4 {
+      font-size: clamp(1.05rem, 2vw, 1.2rem);
+    }
 
+    .container {
+      width: min(1100px, calc(100% - 48px));
+      margin: 0 auto;
+    }
+
+    /* Navigation */
+    header.site {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(245, 246, 248, 0.92);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(148, 163, 184, 0.25);
+    }
+
+    .site-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 0;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-weight: 600;
+      font-size: 1.05rem;
+      transition: transform var(--transition);
+    }
+
+    .brand:hover {
+      transform: translateY(-2px);
+    }
+
+    .avatar {
+      width: 46px;
+      height: 46px;
+      border-radius: 14px;
+      object-fit: cover;
+      border: 1px solid rgba(148, 163, 184, 0.24);
+      box-shadow: var(--shadow-sm);
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+
+    nav a {
+      font-size: 0.95rem;
+      color: var(--muted);
+      border-radius: 999px;
+      padding: 9px 16px;
+      transition: background var(--transition), color var(--transition), transform var(--transition);
+    }
+
+    nav a:hover,
+    nav a:focus-visible {
+      color: var(--text);
+      background: rgba(148, 163, 184, 0.12);
+    }
+
+    .cta {
+      background: var(--accent);
+      color: #ffffff;
+      font-weight: 600;
+      box-shadow: 0 10px 30px rgba(79, 124, 172, 0.25);
+    }
+
+    .cta:hover,
+    .cta:focus-visible {
+      background: #3e6487;
+      color: #ffffff;
+    }
+
+    .mobile-toggle {
+      display: none;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.8);
+      color: var(--text);
+      place-items: center;
+    }
+
+    @media (max-width: 720px) {
+      nav {
+        position: fixed;
+        inset: 74px 20px auto;
+        padding: 16px;
+        flex-direction: column;
+        align-items: flex-start;
+        background: var(--surface-soft);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-md);
+        box-shadow: var(--shadow-lg);
+        transform: translateY(-24px);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity var(--transition), transform var(--transition);
+      }
+
+      header.site[aria-expanded="true"] nav {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateY(0);
+      }
+
+      .mobile-toggle {
+        display: grid;
+      }
+    }
+
+    /* Hero */
+    .hero {
+      padding: clamp(3rem, 8vw, 5rem) 0 4rem;
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+      gap: clamp(2rem, 6vw, 4rem);
+      align-items: center;
+    }
+
+    .hero-media {
+      position: relative;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      background: radial-gradient(circle at 30% 20%, rgba(79, 124, 172, 0.18), transparent 60%), var(--surface);
+      padding: 18px;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .hero-media img {
+      border-radius: var(--radius-md);
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+    }
+
+    .hero-text {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .hero-text p {
+      font-size: 1.05rem;
+      color: var(--muted);
+    }
+
+    .meta-line {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 20px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: transform var(--transition), box-shadow var(--transition), background var(--transition), border-color var(--transition);
+    }
+
+    .btn.primary {
+      background: linear-gradient(135deg, #4f7cac, #395b79);
+      color: #ffffff;
+      box-shadow: 0 20px 40px rgba(79, 124, 172, 0.25);
+    }
+
+    .btn.primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 30px 54px rgba(79, 124, 172, 0.28);
+    }
+
+    .btn.secondary {
+      border-color: rgba(148, 163, 184, 0.4);
+      color: var(--text);
+      background: rgba(148, 163, 184, 0.08);
+    }
+
+    .btn.secondary:hover {
+      border-color: rgba(79, 124, 172, 0.45);
+      transform: translateY(-2px);
+    }
+
+    @media (max-width: 960px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+      .hero-media {
+        order: -1;
+        width: min(400px, 70vw);
+        margin: 0 auto;
+      }
+    }
+
+    /* Layout */
+    main {
+      padding-bottom: 6rem;
+    }
+
+    .grid {
+      display: grid;
+      gap: 22px;
+      grid-template-columns: minmax(0, 1.8fr) minmax(0, 1fr);
+    }
+
+    @media (max-width: 980px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: clamp(1.6rem, 2.6vw, 2rem);
+      box-shadow: var(--shadow-md);
+      transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition);
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(79, 124, 172, 0.38);
+      box-shadow: 0 24px 52px rgba(79, 124, 172, 0.16);
+    }
+
+    .chip,
+    .pill,
+    .stat {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 7px 14px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      border: 1px solid rgba(148, 163, 184, 0.28);
+      background: rgba(148, 163, 184, 0.12);
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .stat-tiles {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 12px;
+    }
+
+    .stat {
+      justify-content: flex-start;
+      gap: 12px;
+      padding: 16px 18px;
+      background: var(--surface);
+      border-radius: var(--radius-sm);
+      font-size: 0.92rem;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 1.35rem;
+      color: var(--text);
+      letter-spacing: -0.01em;
+    }
+
+    .timeline {
+      position: relative;
+      padding-left: 18px;
+    }
+
+    .timeline::before {
+      content: "";
+      position: absolute;
+      top: 6px;
+      bottom: 6px;
+      left: 8px;
+      width: 2px;
+      background: rgba(148, 163, 184, 0.2);
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 24px;
+      padding-left: 30px;
+    }
+
+    .timeline-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .timeline-item::before {
+      content: "";
+      position: absolute;
+      left: -3px;
+      top: 8px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 6px rgba(79, 124, 172, 0.18);
+    }
+
+    .role-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 8px;
+    }
+
+    .role-meta {
+      color: var(--muted);
+      font-size: 0.92rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .skill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .projects {
+      display: grid;
+      gap: 18px;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+
+    .project {
+      border-radius: var(--radius-sm);
+      padding: 18px;
+      border: 1px solid rgba(79, 124, 172, 0.28);
+      background: rgba(79, 124, 172, 0.08);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      transition: transform var(--transition), box-shadow var(--transition);
+    }
+
+    .project:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 44px rgba(79, 124, 172, 0.18);
+    }
+
+    .project p {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin: 0;
+    }
+
+    aside .card {
+      background: linear-gradient(160deg, rgba(79, 124, 172, 0.12), var(--surface));
+    }
+
+    .stack-list,
+    .list-plain {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 10px;
+    }
+
+    .list-plain li {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .stack-list li {
+      padding: 11px 14px;
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      background: rgba(148, 163, 184, 0.12);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .stack-list span {
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    footer {
+      margin-top: 4rem;
+      padding: 2.4rem 0 3.4rem;
+      color: var(--muted);
+      text-align: center;
+      font-size: 0.9rem;
+    }
+
+    .footer-meta {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 1rem;
+    }
+
+    .badge {
+      border-radius: 999px;
+      padding: 6px 12px;
+      background: rgba(79, 124, 172, 0.12);
+      border: 1px solid rgba(79, 124, 172, 0.32);
+      color: var(--accent);
+      font-size: 0.8rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
   </style>
 </head>
 <body>
-  <!-- ========================= HEADER ========================= -->
-  <div class="nav-backdrop" data-nav-backdrop aria-hidden="true"></div>
-
-  <header class="site">
+  <header class="site" aria-expanded="false">
     <div class="site-inner container">
       <a class="brand" href="#top">
-        <img class="avatar" src="https://picsum.photos/seed/soushia/200/200" alt="Soushia DooghaieMoghadam avatar"/>
-        <strong>Soushia DooghaieMoghadam</strong>
+        <img class="avatar" src="https://picsum.photos/seed/soushia/200/200" alt="Soushia DooghaieMoghadam portrait" />
+        <span>Soushia DooghaieMoghadam</span>
       </a>
+      <button class="mobile-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false">
+        <span aria-hidden="true">☰</span>
+      </button>
       <nav>
         <a href="#about">About</a>
         <a href="#experience">Experience</a>
         <a href="#projects">Projects</a>
+        <a href="#education">Education</a>
         <a href="#contact" class="cta">Contact</a>
       </nav>
     </div>
   </header>
 
-  <!-- ========================= HERO ========================= -->
-  <section class="hero container" id="top" aria-label="Intro" data-section>
-    <img class="photo" src="https://picsum.photos/seed/portrait-soushia/400/400" alt="Soushia portrait"/>
-    <div class="headline">
-      <h1 class="title">Soushia DooghaieMoghadam</h1>
-      <p class="meta">Business & Finance Student • Laguna Niguel, CA • Open to opportunities</p>
-    </div>
-  </section>
+  <main id="top">
+    <section class="hero container" id="about" data-section>
+      <div class="hero-text">
+        <h1>Business &amp; Finance student turning retail operations into customer-first wins.</h1>
+        <p>
+          I bring sharp organization skills, a calm presence, and a love for people-centered work. From Whole Foods to student
+          government, I focus on keeping teams coordinated and data-informed.
+        </p>
+        <div class="meta-line">
+          <span>Laguna Niguel, CA</span>
+          <span>Open to internships &amp; early-career roles</span>
+        </div>
+        <div class="hero-actions">
+          <a class="btn primary" href="mailto:soushia@outlook.com">Let’s collaborate</a>
+          <a class="btn secondary" href="#projects">View highlighted work</a>
+        </div>
+        <div class="stat-tiles" aria-label="Snapshot achievements">
+          <div class="stat">
+            <div>
+              <strong>3+</strong>
+              <span>Years in customer-facing roles</span>
+            </div>
+          </div>
+          <div class="stat">
+            <div>
+              <strong>4</strong>
+              <span>Departments supported across teams</span>
+            </div>
+          </div>
+          <div class="stat">
+            <div>
+              <strong>2027</strong>
+              <span>Expected business A.S. graduation</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-media">
+        <img src="https://picsum.photos/seed/portrait-soushia/640/760" alt="Soushia smiling and working on a laptop" />
+      </div>
+    </section>
 
-  <main class="container">
-    <div class="grid">
-      <!-- ========================= LEFT COLUMN ========================= -->
+    <div class="container grid">
       <section class="left">
-        <!-- About -->
-        <article class="card hover-raise" id="about" data-section>
-          <h2>About</h2>
-          <p>
-            I thrive in fast‑paced retail and e‑commerce environments, supporting seamless operations while keeping a strong customer‑first mindset. Currently pursuing an Associate of Science in Business Administration & Management at Saddleback College (Class of 2027).
-          </p>
-          <div class="mix">
-            <span class="pill">Seeking internships</span>
-            <span class="pill">Remote‑friendly</span>
-          </div>
-        </article>
-
-        <!-- Experience -->
-        <article class="card hover-raise" id="experience" data-section>
+        <article class="card" id="experience" data-section>
           <h2>Experience</h2>
-          <div class="timeline" id="experience-list">
-            <div class="item">
-              <span class="dot" aria-hidden="true"></span>
-              <div class="role">
-                <div class="logo">SC</div>
-                <div>
-                  <h3>Officer of Finance, Associated Student Government of Saddleback College</h3>
-                  <div class="period">Aug 2025 – Present • Mission Viejo, CA</div>
-                  <p>Collaborate on budget committee decisions across divisions (science, arts, English). Track quarterly budgets and ledgers; evaluate funding requests based on budget, expected revenue, and impact.</p>
-                  <div class="skills">
-                    <span class="chip">Budget Tracking</span>
-                    <span class="chip">Finance</span>
-                    <span class="chip">Leadership</span>
-                  </div>
-                </div>
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="role-header">
+                <h3>Officer of Finance</h3>
+                <span class="pill">Associated Student Government • Saddleback College</span>
+              </div>
+              <p class="role-meta">Aug 2025 – Present · Mission Viejo, CA</p>
+              <p>
+                Collaborate on budget decisions across student divisions, monitor quarterly ledgers, and evaluate funding requests
+                through a metrics-first lens that highlights program impact.
+              </p>
+              <div class="skill-row">
+                <span class="chip">Budget tracking</span>
+                <span class="chip">Financial analysis</span>
+                <span class="chip">Stakeholder alignment</span>
               </div>
             </div>
-            <div class="item">
-              <span class="dot" aria-hidden="true"></span>
-              <div class="role">
-                <div class="logo">WFM</div>
-                <div>
-                  <h3>Bakery Associate, Whole Foods Market</h3>
-                  <div class="period">Sep 2025 – Present • Laguna Niguel, CA</div>
-                  <p>Prepare, package, and stock baked goods; assist customers; perform temperature checks; maintain department standards and food‑safety compliance; restock and rotate products to minimize waste.</p>
-                  <div class="skills">
-                    <span class="chip">Customer Service</span>
-                    <span class="chip">Food Safety</span>
-                    <span class="chip">Teamwork</span>
-                  </div>
-                </div>
+
+            <div class="timeline-item">
+              <div class="role-header">
+                <h3>Bakery Associate</h3>
+                <span class="pill">Whole Foods Market</span>
+              </div>
+              <p class="role-meta">Sep 2025 – Present · Laguna Niguel, CA</p>
+              <p>
+                Lead daily preparation, packaging, and temperature control for department goods while delivering friendly
+                customer support and reducing waste by rotating inventory intelligently.
+              </p>
+              <div class="skill-row">
+                <span class="chip">Customer service</span>
+                <span class="chip">Food safety</span>
+                <span class="chip">Team coaching</span>
               </div>
             </div>
-            <div class="item">
-              <span class="dot" aria-hidden="true"></span>
-              <div class="role">
-                <div class="logo">WFM</div>
-                <div>
-                  <h3>E‑Commerce / Cashier / Customer Service, Whole Foods Market</h3>
-                  <div class="period">Apr 2025 – Sep 2025 • Laguna Niguel, CA</div>
-                  <p>Fulfilled online orders, supported in‑store operations, assisted customers with product inquiries, and handled accurate cash/card transactions in a clean, organized workspace.</p>
-                </div>
+
+            <div class="timeline-item">
+              <div class="role-header">
+                <h3>E-Commerce Specialist &amp; Cashier</h3>
+                <span class="pill">Whole Foods Market</span>
               </div>
+              <p class="role-meta">Apr 2025 – Sep 2025 · Laguna Niguel, CA</p>
+              <p>
+                Managed online order flow, supported in-store logistics, and ensured accuracy at checkout stations during peak
+                store hours.
+              </p>
             </div>
-            <div class="item">
-              <span class="dot" aria-hidden="true"></span>
-              <div class="role">
-                <div class="logo">RC</div>
-                <div>
-                  <h3>Operations Team Member, Raising Cane's Chicken Fingers</h3>
-                  <div class="period">May 2023 – Feb 2024 • Aliso Viejo, CA</div>
-                </div>
+
+            <div class="timeline-item">
+              <div class="role-header">
+                <h3>Operations Team Member</h3>
+                <span class="pill">Raising Cane's Chicken Fingers</span>
               </div>
+              <p class="role-meta">May 2023 – Feb 2024 · Aliso Viejo, CA</p>
+              <p>Strengthened team handoffs and kept service levels high during fast-paced evening shifts.</p>
             </div>
-            <div class="item">
-              <span class="dot" aria-hidden="true"></span>
-              <div class="role">
-                <div class="logo">PE</div>
-                <div>
-                  <h3>Secretary, Pioneer Energy</h3>
-                  <div class="period">Jan 2022 – Apr 2022 • Tehran, Iran</div>
-                </div>
+
+            <div class="timeline-item">
+              <div class="role-header">
+                <h3>Secretary</h3>
+                <span class="pill">Pioneer Energy</span>
               </div>
+              <p class="role-meta">Jan 2022 – Apr 2022 · Tehran, Iran</p>
+              <p>Coordinated leadership schedules, drafted meeting notes, and maintained document control systems.</p>
             </div>
           </div>
         </article>
 
-        <!-- Projects -->
-        <article class="card hover-raise" id="projects" data-section>
+        <article class="card" id="projects" data-section>
           <h2>Projects</h2>
-          <div class="projects" id="project-grid">
-            <!-- Populated dynamically from /api/projects or fallback JSON -->
-          </div>
+          <div class="projects" id="project-grid"></div>
         </article>
       </section>
 
-      <!-- ========================= RIGHT COLUMN ========================= -->
       <aside class="right">
-        <!-- Languages -->
-        <article class="card hover-raise">
-          <h2>Languages</h2>
-          <p>Persian — Native/Bilingual</p>
-          <p>English — Native/Bilingual</p>
-        </article>
-
-        <!-- Skills -->
-        <article class="card hover-raise" data-section id="skills">
-          <h2>Skills</h2>
-          <ul class="skill-list">
-            <li>Inventory Management</li>
-            <li>Baking</li>
-            <li>Customer Demos</li>
+        <article class="card" id="skills" data-section>
+          <h2>Skills &amp; Tools</h2>
+          <ul class="stack-list">
+            <li>
+              Operational Planning
+              <span>Scheduling, task prioritization, SOP design</span>
+            </li>
+            <li>
+              Customer Engagement
+              <span>Service recovery, demos, active listening</span>
+            </li>
+            <li>
+              Data Fluency
+              <span>Excel, Google Workspace, Tableau (learner)</span>
+            </li>
           </ul>
         </article>
 
-        <!-- Languages -->
-        <article class="card hover-raise" data-section id="languages">
-          <h2>Languages</h2>
-          <p>Persian — Native/Bilingual</p>
-          <p>English — Native/Bilingual</p>
-        </article>
-
-        <!-- Education -->
-        <article class="card hover-raise" data-section id="education">
+        <article class="card" id="education" data-section>
           <h2>Education</h2>
-          <p><strong>Saddleback College</strong> — A.S., Business Administration & Management</p>
-          <p class="meta">Aug 2025 – Jul 2027</p>
-          <p><strong>Aliso Niguel High School</strong> — High School Diploma</p>
-          <p class="meta">Aug 2022 – Jun 2025</p>
+          <ul class="list-plain">
+            <li>
+              <strong>Saddleback College</strong>
+              <div>Associate of Science, Business Administration &amp; Management</div>
+              <div class="role-meta">2025 – 2027 (expected)</div>
+            </li>
+            <li>
+              <strong>Aliso Niguel High School</strong>
+              <div>High School Diploma</div>
+              <div class="role-meta">Class of 2025</div>
+            </li>
+          </ul>
         </article>
 
-        <!-- Contact -->
-        <article class="card hover-raise" id="contact" data-section>
+        <article class="card" id="languages" data-section>
+          <h2>Languages</h2>
+          <ul class="list-plain">
+            <li>Persian — Native/Bilingual</li>
+            <li>English — Native/Bilingual</li>
+          </ul>
+        </article>
+
+        <article class="card" id="contact" data-section>
           <h2>Contact</h2>
+          <p>Email: <a href="mailto:soushia@outlook.com">soushia@outlook.com</a></p>
+          <p>LinkedIn: <a href="https://www.linkedin.com/in/soushia" target="_blank" rel="noopener">/in/soushia</a></p>
+          <p>GitHub: <a href="https://github.com/" target="_blank" rel="noopener">github.com</a></p>
           <p>
-            Don't hesitate to email me at
-            <a href="mailto:soushia@outlook.com">soushia@outlook.com</a>.
+            Interested in collaborations or internships? Send a note and let's explore how I can support your team.
           </p>
-        </article>
-
-        <!-- Quick Links -->
-        <article class="card hover-raise" data-section id="links">
-          <h2>Links</h2>
-          <div class="mix">
-            <a class="pill" href="https://github.com/" target="_blank" rel="noopener">GitHub</a>
-            <a class="pill" href="https://www.linkedin.com/in/soushia" target="_blank" rel="noopener">LinkedIn</a>
-            <a class="pill" href="#projects">Portfolio</a>
-          </div>
         </article>
       </aside>
     </div>
-
-    <footer>
-      <p>© <span id="year"></span> Soushia DooghaieMoghadam • Built with vanilla HTML/CSS/JS • Cream & Black theme</p>
-    </footer>
   </main>
 
+  <footer>
+    <div class="footer-meta">
+      <span class="badge" id="visitors" aria-live="polite">—</span>
+      <span>Visitor count (per browser)</span>
+    </div>
+    <p>© <span id="year"></span> Soushia DooghaieMoghadam · Designed and built with care.</p>
+  </footer>
+
   <script>
-    // =========================
-    // Helper utilities
-    // =========================
-    const $ = (sel, scope = document) => scope.querySelector(sel);
-    const $$ = (sel, scope = document) => Array.from(scope.querySelectorAll(sel));
+    const header = document.querySelector('header.site');
+    const toggle = document.querySelector('.mobile-toggle');
+    const nav = header.querySelector('nav');
+
+    const closeNav = () => {
+      header?.setAttribute('aria-expanded', 'false');
+      toggle?.setAttribute('aria-expanded', 'false');
+    };
+
+    toggle?.addEventListener('click', () => {
+      const expanded = header.getAttribute('aria-expanded') === 'true';
+      header.setAttribute('aria-expanded', String(!expanded));
+      toggle.setAttribute('aria-expanded', String(!expanded));
+    });
+
+    nav?.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => {
+        if (window.innerWidth <= 720) {
+          closeNav();
+        }
+      });
+    });
 
     const storage = (() => {
       try {
-        const { localStorage } = window;
-        const probe = '__sdm-probe__';
-        localStorage.setItem(probe, '1');
-        localStorage.removeItem(probe);
-        return localStorage;
+        const probe = '__sdm__';
+        window.localStorage.setItem(probe, '1');
+        window.localStorage.removeItem(probe);
+        return window.localStorage;
       } catch (error) {
-        console.warn('localStorage unavailable, continuing without persistence.', error);
+        console.warn('localStorage unavailable; visitor tally disabled.', error);
         return null;
       }
     })();
@@ -301,171 +772,61 @@
       try {
         storage.setItem(key, String(value));
       } catch (error) {
-        console.warn('Unable to persist value to localStorage.', error);
+        console.warn('Unable to persist visitor tally.', error);
       }
     };
 
-    // Year
-    $('#year').textContent = new Date().getFullYear();
-
-    // Visitor count (tracked per unique browser)
     const VISITOR_TOTAL_KEY = 'sdm-visitor-total';
     const VISITOR_SEEN_KEY = 'sdm-visitor-seen';
-    const visitorsEl = $('#visitors');
+    const visitorsEl = document.getElementById('visitors');
+
     if (visitorsEl) {
-      let visitorTotal = readNumber(VISITOR_TOTAL_KEY, 0);
       if (!storage) {
         visitorsEl.textContent = 'offline';
       } else {
+        let visitorTotal = readNumber(VISITOR_TOTAL_KEY, 0);
         if (!storage.getItem(VISITOR_SEEN_KEY)) {
           visitorTotal += 1;
           writeNumber(VISITOR_TOTAL_KEY, visitorTotal);
           storage.setItem(VISITOR_SEEN_KEY, '1');
         }
-        visitorsEl.textContent = visitorTotal;
+        visitorsEl.textContent = `Visitor #${visitorTotal}`;
       }
     }
 
-    // Projects (static data inlined for single-file build)
     const projects = [
-      { name: 'Deal Screener', desc: 'A small tool to rank companies by traction and unit economics.', link: '#' },
-      { name: 'Portfolio Dashboard', desc: 'Python + SQL pipeline that tracks positions & risk.', link: '#' },
-      { name: 'Class Scheduler', desc: 'Simple web app to optimize course schedules.', link: '#' }
+      {
+        name: 'Deal Screener',
+        desc: 'Ranks companies by traction & unit economics to prep for pitch meetings.',
+        link: '#'
+      },
+      {
+        name: 'Portfolio Dashboard',
+        desc: 'Python + SQL pipeline monitoring holdings, risk, and allocation drift.',
+        link: '#'
+      },
+      {
+        name: 'Class Scheduler',
+        desc: 'Web app to juggle course prerequisites and availability windows.',
+        link: '#'
+      }
     ];
-    const grid = $('#project-grid');
-    grid.innerHTML = '';
-    projects.forEach((project) => {
-      const el = document.createElement('a');
-      el.className = 'project hover-raise';
-      el.href = project.link || '#';
-      el.target = project.link ? '_blank' : '_self';
-      el.rel = 'noopener';
-      el.innerHTML = `<h4>${project.name}</h4><p>${project.desc || ''}</p>`;
-      grid.appendChild(el);
-    });
 
-    // Menu-driven focus fade
-    const fadeables = $$('[data-section]');
-    const navLinks = $$('header nav a');
-    const navBackdrop = $('[data-nav-backdrop]');
-    const reduceMotionMedia = typeof window.matchMedia === 'function'
-      ? window.matchMedia('(prefers-reduced-motion: reduce)')
-      : { matches: false };
-    const getScrollBehavior = () => (reduceMotionMedia.matches ? 'auto' : 'smooth');
-    const centerSection = (section) => {
-      if (!section || typeof section.scrollIntoView !== 'function') return;
-      const behavior = getScrollBehavior();
-      try {
-        section.scrollIntoView({ behavior, block: 'center', inline: 'nearest' });
-      } catch (error) {
-        section.scrollIntoView();
-      }
-    };
-    const clearHighlight = () => {
-      fadeables.forEach((el) => el.classList.remove('is-highlight'));
-    };
-    const clearActiveNav = () => {
-      navLinks.forEach((link) => link.classList.remove('is-active'));
-    };
-    const exitNavFocus = () => {
-      document.body.classList.remove('nav-focus');
-      clearHighlight();
-      clearActiveNav();
-    };
-    let navFocusActivatedAt = 0;
-    const setActiveNav = (hash) => {
-      const matching = navLinks.find((link) => link.hash === hash);
-      if (!matching) return false;
-      navLinks.forEach((link) => {
-        if (link === matching) {
-          link.classList.add('is-active');
-        } else {
-          link.classList.remove('is-active');
-        }
+    const grid = document.getElementById('project-grid');
+    if (grid) {
+      grid.innerHTML = '';
+      projects.forEach((project) => {
+        const el = document.createElement('a');
+        el.className = 'project';
+        el.href = project.link || '#';
+        el.target = project.link ? '_blank' : '_self';
+        el.rel = 'noopener';
+        el.innerHTML = `<h4>${project.name}</h4><p>${project.desc || ''}</p>`;
+        grid.appendChild(el);
       });
-      return true;
-    };
-    const highlightSection = (section, { scroll = false } = {}) => {
-      if (!section) return;
-      document.body.classList.add('nav-focus');
-      clearHighlight();
-      section.classList.add('is-highlight');
-      navFocusActivatedAt = Date.now();
-      if (section.id) {
-        setActiveNav(`#${section.id}`);
-      }
-      if (scroll) {
-        centerSection(section);
-      }
-    };
-    const activateByHash = (hash, options = {}) => {
-      if (!hash) return;
-      const target = document.querySelector(hash);
-      if (!target || !fadeables.includes(target)) return;
-      highlightSection(target, options);
-    };
-
-    const schedule = window.requestAnimationFrame
-      ? window.requestAnimationFrame.bind(window)
-      : (fn) => setTimeout(fn, 0);
-
-    navLinks.forEach((link) => {
-      link.addEventListener('click', () => {
-        const { hash } = link;
-        if (!hash) return;
-        const shouldScrollImmediately = window.location.hash === hash;
-        schedule(() => activateByHash(hash, { scroll: shouldScrollImmediately }));
-      });
-    });
-
-    window.addEventListener('hashchange', () => {
-      activateByHash(window.location.hash, { scroll: true });
-    });
-
-    if (window.location.hash) {
-      activateByHash(window.location.hash, { scroll: true });
     }
 
-    document.addEventListener('keydown', (event) => {
-      if (event.key !== 'Escape') return;
-      exitNavFocus();
-    });
-
-    const maybeExitOnScroll = () => {
-      if (!document.body.classList.contains('nav-focus')) return;
-      if (Date.now() - navFocusActivatedAt < 250) return;
-      exitNavFocus();
-    };
-
-    ['scroll', 'wheel', 'touchmove'].forEach((eventName) => {
-      window.addEventListener(eventName, maybeExitOnScroll, { passive: true });
-    });
-
-    if (navBackdrop) {
-      navBackdrop.addEventListener('click', exitNavFocus);
-    }
-
-    if ('IntersectionObserver' in window) {
-      const observer = new IntersectionObserver((entries) => {
-        if (!document.body.classList.contains('nav-focus')) return;
-        const visible = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-        if (!visible) return;
-        highlightSection(visible.target);
-      }, { threshold: 0.55 });
-
-      fadeables.forEach((section) => observer.observe(section));
-    }
+    document.getElementById('year').textContent = new Date().getFullYear();
   </script>
-
-  <!--
-    ========================= SINGLE-FILE NOTES =========================
-    This build inlines all styling and behaviour so it can be hosted as a
-    standalone HTML document. Visitor counter relies on
-    localStorage; if a browser blocks storage the UI will still function
-    without persistence. The contact button now prepares a pre-filled email
-    draft instead of calling a backend service.
-  -->
 </body>
 </html>
